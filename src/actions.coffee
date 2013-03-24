@@ -13,7 +13,6 @@ Storm.actions =
     (bar) -> bar.forceSearchTerm(token + ' ')
 
   fillCommand: (keyword, command) ->
-    console.log keyword, command
     (bar) -> bar.forceSearchTerm("#{keyword} #{command} ")
 
   reset: ->

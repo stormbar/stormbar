@@ -1,5 +1,5 @@
 class Storm.Bolt
-  constructor: (@id, @code) ->
+  constructor: (@id, @code, @isPrivileged=false) ->
     @worker = null
     @metadata = {}
     @processMetadata()

@@ -6,12 +6,15 @@ Storm.keywords = {}
 Storm.init = (selector) -> new Storm.Bar($(selector))
 
 Storm.install = (url) ->
-  $.get url, null, ((data) -> Storm.load(Storm.idFromURL(url), data)), 'text'
+  if url.search(/^https?:\/\//i) is 0
+    $.getJSON "http://anyorigin.com/get?callback=?&url=#{url}", (data) -> Storm.load(Storm.idFromURL(url), data.contents, false)
+  else
+    $.get url, null, ((data) -> Storm.load(Storm.idFromURL(url), data, true)), 'text'
 
 Storm.idFromURL = (url) -> CryptoJS.SHA1(url).toString()
 
-Storm.load = (id, boltCode) ->
-  bolt = new Storm.Bolt(id, boltCode)
+Storm.load = (id, boltCode, isPrivileged=false) ->
+  bolt = new Storm.Bolt(id, boltCode, isPrivileged)
   Storm.register(bolt)
 
 Storm.register = (bolt) ->

@@ -12,19 +12,28 @@
   };
 
   Storm.install = function(url) {
-    return $.get(url, null, (function(data) {
-      return Storm.load(Storm.idFromURL(url), data);
-    }), 'text');
+    if (url.search(/^https?:\/\//i) === 0) {
+      return $.getJSON("http://anyorigin.com/get?callback=?&url=" + url, function(data) {
+        return Storm.load(Storm.idFromURL(url), data.contents, false);
+      });
+    } else {
+      return $.get(url, null, (function(data) {
+        return Storm.load(Storm.idFromURL(url), data, true);
+      }), 'text');
+    }
   };
 
   Storm.idFromURL = function(url) {
     return CryptoJS.SHA1(url).toString();
   };
 
-  Storm.load = function(id, boltCode) {
+  Storm.load = function(id, boltCode, isPrivileged) {
     var bolt;
 
-    bolt = new Storm.Bolt(id, boltCode);
+    if (isPrivileged == null) {
+      isPrivileged = false;
+    }
+    bolt = new Storm.Bolt(id, boltCode, isPrivileged);
     return Storm.register(bolt);
   };
 
@@ -80,7 +89,6 @@
       };
     },
     fillCommand: function(keyword, command) {
-      console.log(keyword, command);
       return function(bar) {
         return bar.forceSearchTerm("" + keyword + " " + command + " ");
       };
@@ -293,9 +301,10 @@
   });
 
   Storm.Bolt = (function() {
-    function Bolt(id, code) {
+    function Bolt(id, code, isPrivileged) {
       this.id = id;
       this.code = code;
+      this.isPrivileged = isPrivileged != null ? isPrivileged : false;
       this.worker = null;
       this.metadata = {};
       this.processMetadata();
@@ -417,7 +426,6 @@
     function Result(data) {
       this.data = data != null ? data : {};
       if (typeof this.data.action === 'object') {
-        console.log(this.data.action);
         this.data.action = Storm.actions[this.data.action.name].apply(this, this.data.action.args);
       }
     }
