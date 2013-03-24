@@ -1,0 +1,34 @@
+<html>
+<head>
+  <title>Let It Storm!</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/storm.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript" src="/javascripts/vendor.min.js"></script>
+  <script type="text/javascript" src="/javascripts/storm.js"></script>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="stormbar">
+    <div class="logo"></div>
+    <input class="search mousetrap" placeholder="Search" />
+    <div class="help">
+      <span class="help-icon">?</span>
+      <div class="help-text">Help text coming soon...</div>
+    </div>
+    <ol class="downpour"></ol>
+
+<script id="result-template" type="text/x-handlebars-template">
+  <li class="result">
+    <h4>{{title}}</h4>
+    <p>{{description}}</p>
+  </li>
+</script>
+
+<script type="text/javascript">
+    Storm.install('/bolts/simple.js');
+    Storm.install('/bolts/google.js');
+    Storm.init('.stormbar');
+</script>
+</body>
+</html>
