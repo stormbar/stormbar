@@ -17,6 +17,6 @@ if(command.hasQuery) {
   result({
     title: 'Give me a hand...',
     description: "I'll randomise the max too if you like!",
-    action: actions.fillCommand('random', Math.floor(Math.random()*1000))
+    action: actions.fillCommand(meta.keyword, Math.floor(Math.random()*1000))
   });
 };

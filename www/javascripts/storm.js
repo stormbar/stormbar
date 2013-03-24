@@ -264,13 +264,32 @@
   };
 
   Storm.BOLT_API = WWRPC.defineProtocol({
+    log: WWRPC.remote(function(msg) {
+      return console.log(msg);
+    }),
+    sanitize: WWRPC.local(function(str) {
+      return str.replace(/<\/?[a-z0-9]+>/gi, '');
+    }),
+    truncate: WWRPC.local(function(str, length) {
+      return str.slice(0, length);
+    }),
     command: WWRPC.pass(function() {
-      return this.command;
+      return this.query.command;
+    }),
+    meta: WWRPC.pass(function() {
+      return this.bolt.metadata;
     }),
     result: WWRPC.remote(function(opts) {
-      return this.result(opts);
+      return this.query.result(opts);
     }),
-    actions: buildActionProxies()
+    actions: buildActionProxies(),
+    http: {
+      getJSON: WWRPC.remote(function(url, done) {
+        return $.getJSON(url, function(res) {
+          return done(res);
+        });
+      })
+    }
   });
 
   Storm.Bolt = (function() {
@@ -328,7 +347,10 @@
     };
 
     Bolt.prototype.run = function(query) {
-      this.worker = WWRPC.spawnWorker(Storm.BOLT_API, query);
+      this.worker = WWRPC.spawnWorker(Storm.BOLT_API, {
+        query: query,
+        bolt: this
+      });
       return this.worker.loadCode(this.wrappedCode());
     };
 

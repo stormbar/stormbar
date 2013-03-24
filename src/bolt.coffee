@@ -36,7 +36,7 @@ class Storm.Bolt
     "(function() {\n#{@code}\n})"
 
   run: (query) ->
-    @worker = WWRPC.spawnWorker(Storm.BOLT_API, query)
+    @worker = WWRPC.spawnWorker(Storm.BOLT_API, {query:query, bolt:this})
     @worker.loadCode(@wrappedCode())
 
   terminate: ->
