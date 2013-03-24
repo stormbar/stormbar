@@ -113,7 +113,6 @@
         value = leaf[key];
         o[key] = this.process(value, context, tree.concat([key]));
       }
-      console.log(o);
       return o;
     };
 
@@ -227,7 +226,6 @@
     }
 
     Worker.prototype.process = function(data) {
-      console.log(data);
       switch (data.action) {
         case 'wwrpc:call':
           return this.protocol.call(data.name, this.context, data.args, this.buildCallback(data.callbackId));
@@ -268,7 +266,6 @@
     };
 
     Worker.prototype.loadCode = function(code) {
-      console.log("loading code", code.toString());
       return this.worker.postMessage({
         action: 'wwrpc:run',
         code: code.toString()
