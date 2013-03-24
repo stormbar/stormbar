@@ -5,16 +5,18 @@ module.exports = (grunt) ->
     pkg: grunt.file.readJSON('package.json'),
 
     coffee:
-      storm:
+      src:
         options:
           join: true
         files:
           'www/javascripts/storm.js': ['src/storm.coffee', 'src/*.coffee']
 
     uglify:
-      storm:
+      src:
         files:
           'www/javascripts/storm.min.js': 'www/javascripts/storm.js'
+      vendor:
+        files:
           'www/javascripts/vendor.min.js': 'vendor/*.js'
 
     compass:
@@ -24,9 +26,12 @@ module.exports = (grunt) ->
           cssDir: 'www/stylesheets'
 
     watch:
-      scripts:
-        files: ['src/*.coffee', 'vendor/*.js']
-        tasks: ['build']
+      src:
+        files: ['src/*.coffee']
+        tasks: ['coffee:src', 'uglify:src']
+      vendor:
+        files: ['vendor/*.js']
+        tasks: ['uglify:vendor']
       styles:
         files: ['sass/*.scss']
         tasks: ['compass']

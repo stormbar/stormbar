@@ -7,9 +7,9 @@ Storm.init = (selector) -> new Storm.Bar($(selector))
 
 Storm.install = (url) ->
   if url.search(/^https?:\/\//i) is 0
-    $.getJSON "http://anyorigin.com/get?callback=?&url=#{url}", (data) -> Storm.load(Storm.idFromURL(url), data.contents, false)
+    $.getJSON "http://anyorigin.com/get?callback=?&url=#{url}", (data) -> Storm.load(url, data.contents, false)
   else
-    $.get url, null, ((data) -> Storm.load(Storm.idFromURL(url), data, true)), 'text'
+    $.get url, null, ((data) -> Storm.load(url, data, true)), 'text'
 
 Storm.idFromURL = (url) -> CryptoJS.SHA1(url).toString()
 

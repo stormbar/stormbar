@@ -1,18 +1,20 @@
 class Storm.Bolt
-  constructor: (@id, @code, @isPrivileged=false) ->
+  constructor: (@url, @code, @isPrivileged=false) ->
+    @id = Storm.idFromURL(@url)
     @worker = null
     @metadata = {}
     @processMetadata()
     @stripCode()
+    @compile()
 
   getKeyword: -> @metadata.keyword
 
   processMetadata: ->
     for line in @code.split(/\n/g)
-      matches = line.match(/^\/\/\s+(\w+):\s?(.+?)$/)
+      matches = line.match(/^(\/\/|#)\s+(\w+):\s?(.+?)$/)
       return unless matches
-      key = matches[1]
-      value = matches[2]
+      key = matches[2]
+      value = matches[3]
       @set(key, value)
 
   set: (key, value) ->
@@ -31,13 +33,15 @@ class Storm.Bolt
     # removes comments and blank lines from code
     @code = @code.replace(/^(\n|\/\/.+?\n)/gm, '')
 
-  wrappedCode: ->
+  compile: ->
+    if @url.search(/\.coffee$/i) > 0
+      @code = CoffeeScript.compile(@code)
     # wraps code in an anonymous function so that it evals cleanly
-    "(function() {\n#{@code}\n})"
+    @code = "(function() {\n#{@code}\n})"
 
   run: (query) ->
     @worker = WWRPC.spawnWorker(Storm.BOLT_API, {query:query, bolt:this})
-    @worker.loadCode(@wrappedCode())
+    @worker.loadCode(@code)
 
   terminate: ->
     if @worker

@@ -14,11 +14,11 @@
   Storm.install = function(url) {
     if (url.search(/^https?:\/\//i) === 0) {
       return $.getJSON("http://anyorigin.com/get?callback=?&url=" + url, function(data) {
-        return Storm.load(Storm.idFromURL(url), data.contents, false);
+        return Storm.load(url, data.contents, false);
       });
     } else {
       return $.get(url, null, (function(data) {
-        return Storm.load(Storm.idFromURL(url), data, true);
+        return Storm.load(url, data, true);
       }), 'text');
     }
   };
@@ -301,14 +301,16 @@
   });
 
   Storm.Bolt = (function() {
-    function Bolt(id, code, isPrivileged) {
-      this.id = id;
+    function Bolt(url, code, isPrivileged) {
+      this.url = url;
       this.code = code;
       this.isPrivileged = isPrivileged != null ? isPrivileged : false;
+      this.id = Storm.idFromURL(this.url);
       this.worker = null;
       this.metadata = {};
       this.processMetadata();
       this.stripCode();
+      this.compile();
     }
 
     Bolt.prototype.getKeyword = function() {
@@ -321,12 +323,12 @@
       _ref = this.code.split(/\n/g);
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         line = _ref[_i];
-        matches = line.match(/^\/\/\s+(\w+):\s?(.+?)$/);
+        matches = line.match(/^(\/\/|#)\s+(\w+):\s?(.+?)$/);
         if (!matches) {
           return;
         }
-        key = matches[1];
-        value = matches[2];
+        key = matches[2];
+        value = matches[3];
         this.set(key, value);
       }
     };
@@ -351,8 +353,11 @@
       return this.code = this.code.replace(/^(\n|\/\/.+?\n)/gm, '');
     };
 
-    Bolt.prototype.wrappedCode = function() {
-      return "(function() {\n" + this.code + "\n})";
+    Bolt.prototype.compile = function() {
+      if (this.url.search(/\.coffee$/i) > 0) {
+        this.code = CoffeeScript.compile(this.code);
+      }
+      return this.code = "(function() {\n" + this.code + "\n})";
     };
 
     Bolt.prototype.run = function(query) {
@@ -360,7 +365,7 @@
         query: query,
         bolt: this
       });
-      return this.worker.loadCode(this.wrappedCode());
+      return this.worker.loadCode(this.code);
     };
 
     Bolt.prototype.terminate = function() {
