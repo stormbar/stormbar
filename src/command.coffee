@@ -5,5 +5,3 @@ class Storm.Command
     @hasKeyword = @text.search(/\s/) > 0
     @query = @text.replace(new RegExp("^#{@keyword}\\s+"), '')
     @hasQuery = @query and @query.length > 0
-    console.log this
-
