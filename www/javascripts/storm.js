@@ -405,7 +405,6 @@
       this.hasKeyword = this.text.search(/\s/) > 0;
       this.query = this.text.replace(new RegExp("^" + this.keyword + "\\s+"), '');
       this.hasQuery = this.query && this.query.length > 0;
-      console.log(this);
     }
 
     return Command;
