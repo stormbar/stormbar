@@ -120,7 +120,8 @@ body {
   padding: 10px;
   color: #fff;
   background: #000;
-  font-size: 12px;
+  font-size: 13px;
+  text-align: center;
   @include border-radius(5px);
 
   &:after {
