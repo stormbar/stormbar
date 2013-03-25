@@ -2,7 +2,6 @@
 # description: Search Google for stuff.
 # keyword: google
 # homepage: http://google.com
-# query: required
 
 if command.hasQuery
 

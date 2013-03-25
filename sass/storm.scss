@@ -177,3 +177,64 @@ body {
     }
   }
 }
+
+.page {
+  position: relative;
+  margin: 50px auto;
+  padding: 30px;
+  width: 900px;
+  background: #fff;
+  line-height: 1.5;
+  .back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 30px;
+    background: #eee;
+    color: #333;
+    text-decoration: none;
+    &:hover {
+      color: #fff;
+      background: #333;
+    }
+  }
+  h1 {
+    font-size: 2.4em;
+    padding: 20px 0 10px 0;
+  }
+  h2 {
+    font-size: 1.6em;
+    margin: 20px 0 10px 0;
+  }
+  h3 {
+    font-weight: bold;
+    margin: 1em 0 .5em 0;
+  }
+  p {
+    margin: .5em 0;
+  }
+  ol {
+    margin-bottom: 1em;
+  }
+  li {
+    list-style: square;
+    margin: .25em 20px;
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px;
+  text-align: center;
+  font-size: 12px;
+  a {
+    color: #ccc;
+    &:hover {
+      color: #fff;
+    }
+  }
+}

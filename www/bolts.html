@@ -1,0 +1,81 @@
+<html>
+<head>
+  <title>Let It Storm!</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/storm.css" />
+</head>
+<body>
+<div class="page">
+  <a class="back" href="/">&larr; Back to the Storm</a>
+  <h1>Bolt API Documentation</h1>
+
+  <h2>What is a Bolt?</h2>
+  <p>
+    Bolts are Storm extensions. They enable advanced functionality by installing support for additional keywords and actions. Bolts are written in code but should be simple enough for even novice programmers to build.
+  </p>
+
+  <h2>What makes a Bolt, a Bolt?</h2>
+  <ul>
+    <li>Bolts are written in JavaScript or CoffeeStript.</li>
+    <li>Bolts must be accessible via a publicly accessible URL.</li>
+    <li>Bolts must include metadata block at the start of the file that declares it's configuration.</li>
+    <li>Bolts must use the API documented here and should not attempt to access undocumented functionality.</li>
+  </ul>
+
+  <h2>An example Bolt</h2>
+  <p>Below is a super simple bolt that echos back whatever you say to it. It's written in both CoffeeScript and Javascript.</p>
+  <script src="https://gist.github.com/andykent/5239343.js"></script>
+
+  <h2>API Documentation</h2>
+
+  <h3>log(msg)</h3>
+  <p>Allows logging to the console to aid in debugging. Note: console.log() isn't available as your Bolt code will run instide a WebWorker.</p>
+
+  <h3>meta</h3>
+  <p>The meta object give you read access to the metadata that your bolt declared in it's header.</p>
+  <p>The available properties depend on the information you provided but as a minimum you should have...</p>
+  <ul>
+    <li>meta.name</li>
+    <li>meta.description</li>
+    <li>meta.keyword</li>
+    <li>meta.homepage</li>
+  </ul>
+
+  <h3>command</h3>
+  <p>The command object gives you read access to the parsed command that was entered into the command bar. this contains the information you will need to respond to a users query.</p>
+  <p>The available keys are:</p>
+  <ul>
+    <li>command.text - The full text as shown in the UI</li>
+    <li>command.tokens - An Array of Strings containing all the tokens formed by splitting the input on whitespace</li>
+    <li>command.keyword - The first token is considered to be the keyword that matched</li>
+    <li>command.query - A string of the remaining command after the keyword has been removed</li>
+    <li>command.hasKeyword - A Boolean indicating if the command has a complete keyword available</li>
+    <li>command.hasQuery - A Boolean indicating if the command has a query</li>
+  </ul>
+
+  <h3>result({options})</h3>
+  <p>The result function is how you pass results back to the UI. Results are formed of an options object which can have any of the below keys.</p>
+  <ul>
+    <li>title: String - The first line of text displayed in the UI</li>
+    <li>description: String - An optional second smaller line of text displayed in the UI</li>
+    <li>action: Action - This is the action that will be executed when selecting the result. See 'actions' for more info</li>
+    <li>icon: String - An optional URL of an icon to be displayed next to this result</li>
+  </ul>
+
+  <h3>actions</h3>
+  <p>The actions object contains action proxies which can be used as the action argument to results such that when a user picks a result the action is fired.</p>
+  <p>The supported action types are:</p>
+  <ul>
+    <li>actions.repeat() - repeat the last run command. This is essentially a loopback.</li>
+    <li>actions.open(url) - provided with a URL it will open that page in the users browser.</li>
+    <li>actions.reset() - clears the current command and kills all running Bolts</li>
+    <li>actions.fill(command) - given a new command string this action will fill the UI.</li>
+    <li>actions.fillKeyword(keyword) - like fill() but designed for when you just want to provide a keyword.</li>
+    <li>actions.fillCommand(keyword, query) - like fill() but takes seperate arguments for keyword and query parts</li>
+  </ul>
+
+  <h2>A Full Example</h2>
+  <p>Here is a fully working example of a Bolt to provide Google Search capabilities. Provided in JS and coffee versions.</p>
+  <script src="https://gist.github.com/andykent/5239448.js"></script>
+</div>
+</body>
+</html>
