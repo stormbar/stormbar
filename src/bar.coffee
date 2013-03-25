@@ -1,5 +1,5 @@
 class Storm.Bar
-  constructor: (@el) ->
+  constructor: (@el, @options={}) ->
     @el = $(@el)
     @searchField = @el.find('input.search')
     @resultsEl = @el.find('.downpour')
@@ -8,8 +8,14 @@ class Storm.Bar
     @lastSearch = ""
     @bindEvents()
     @currentResultIndex = 0
-    @focusSearchField()
     @updateTimer = null
+    # TODO: this is a big hack till we have load events
+    setTimeout (=> @onLoad()), 1000
+
+  onLoad: ->
+    @forceSearchTerm(@options.query) if @options.query
+    @bindEvents()
+    @focusSearchField()
 
   bindEvents: ->
     @searchField.on('keyup', => @considerUpdate())

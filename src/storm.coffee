@@ -3,7 +3,9 @@ window.Storm = Storm = {}
 Storm.bolts = {}
 Storm.keywords = {}
 
-Storm.init = (selector) -> new Storm.Bar($(selector))
+Storm.init = (selector) ->
+  params = URI(window.location.href).query(true)
+  new Storm.Bar($(selector), query:params.q)
 
 Storm.install = (url) ->
   if url.search(/^https?:\/\//i) is 0

@@ -8,7 +8,12 @@
   Storm.keywords = {};
 
   Storm.init = function(selector) {
-    return new Storm.Bar($(selector));
+    var params;
+
+    params = URI(window.location.href).query(true);
+    return new Storm.Bar($(selector), {
+      query: params.q
+    });
   };
 
   Storm.install = function(url) {
@@ -101,8 +106,11 @@
   };
 
   Storm.Bar = (function() {
-    function Bar(el) {
+    function Bar(el, options) {
+      var _this = this;
+
       this.el = el;
+      this.options = options != null ? options : {};
       this.el = $(this.el);
       this.searchField = this.el.find('input.search');
       this.resultsEl = this.el.find('.downpour');
@@ -111,9 +119,19 @@
       this.lastSearch = "";
       this.bindEvents();
       this.currentResultIndex = 0;
-      this.focusSearchField();
       this.updateTimer = null;
+      setTimeout((function() {
+        return _this.onLoad();
+      }), 1000);
     }
+
+    Bar.prototype.onLoad = function() {
+      if (this.options.query) {
+        this.forceSearchTerm(this.options.query);
+      }
+      this.bindEvents();
+      return this.focusSearchField();
+    };
 
     Bar.prototype.bindEvents = function() {
       var _this = this;
@@ -338,7 +356,7 @@
     };
 
     Bolt.prototype.process = function(query) {
-      if (query.command.keyword === this.getKeyword()) {
+      if (query.command.hasKeyword && query.command.keyword === this.getKeyword()) {
         return this.run(query);
       } else {
         return query.result({
@@ -384,9 +402,10 @@
       this.text = text;
       this.tokens = this.text.split(/\s+/g);
       this.keyword = this.tokens[0];
-      this.hasKeyword = this.keyword && this.keyword.length > 0;
+      this.hasKeyword = this.text.search(/\s/) > 0;
       this.query = this.text.replace(new RegExp("^" + this.keyword + "\\s+"), '');
       this.hasQuery = this.query && this.query.length > 0;
+      console.log(this);
     }
 
     return Command;

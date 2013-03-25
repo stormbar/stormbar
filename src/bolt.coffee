@@ -21,7 +21,7 @@ class Storm.Bolt
     @metadata[key] = value
 
   process: (query) ->
-    if query.command.keyword is @getKeyword()
+    if query.command.hasKeyword and query.command.keyword is @getKeyword()
       @run(query)
     else
       query.result
