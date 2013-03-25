@@ -1,7 +1,7 @@
 // name: Random
 // description: A super minimal example random number generator bolt
 // keyword: random
-// homepage: http://stormbar.com
+// homepage: http://stormbar.net
 
 if(command.hasQuery) {
   result({

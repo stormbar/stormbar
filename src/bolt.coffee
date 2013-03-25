@@ -1,6 +1,7 @@
 class Storm.Bolt
-  constructor: (@url, @code, @isPrivileged=false) ->
+  constructor: (@url, @source, @isPrivileged=false) ->
     @id = Storm.idFromURL(@url)
+    @code = @source
     @worker = null
     @metadata = {}
     @processMetadata()

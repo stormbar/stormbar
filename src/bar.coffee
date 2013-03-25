@@ -31,7 +31,7 @@ class Storm.Bar
     @searchField.val(term)
     @update(true)
 
-  reset: -> forceSearchTerm('')
+  reset: -> @forceSearchTerm('')
 
   searchTerm: -> @searchField.val()
 

@@ -10,8 +10,8 @@ if command.hasQuery
     if data.responseData
       for item in data.responseData.results
         result
-          title:       sanitize(item.title)
-          description: sanitize(item.content)
+          title:       utils.sanitize(item.title)
+          description: utils.sanitize(item.content)
           action:      actions.open(item.url)
     else
       result

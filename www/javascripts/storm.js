@@ -11,19 +11,27 @@
     var params;
 
     params = URI(window.location.href).query(true);
-    return new Storm.Bar($(selector), {
+    new Storm.Bar($(selector), {
       query: params.q
     });
+    return Storm.loadAllFromIndex();
   };
 
   Storm.install = function(url) {
+    console.log("INSTALL " + url);
     if (url.search(/^https?:\/\//i) === 0) {
       return $.getJSON("http://anyorigin.com/get?callback=?&url=" + url, function(data) {
-        return Storm.load(url, data.contents, false);
+        return Storm.load(url, data.contents, {
+          isPrivileged: false,
+          isInstall: true
+        });
       });
     } else {
       return $.get(url, null, (function(data) {
-        return Storm.load(url, data, true);
+        return Storm.load(url, data, {
+          isPrivileged: true,
+          isInstall: true
+        });
       }), 'text');
     }
   };
@@ -32,20 +40,75 @@
     return CryptoJS.SHA1(url).toString();
   };
 
-  Storm.load = function(id, boltCode, isPrivileged) {
+  Storm.load = function(id, boltCode, options) {
     var bolt;
 
-    if (isPrivileged == null) {
-      isPrivileged = false;
+    if (options == null) {
+      options = {};
     }
-    bolt = new Storm.Bolt(id, boltCode, isPrivileged);
-    return Storm.register(bolt);
+    bolt = new Storm.Bolt(id, boltCode, options.isPrivileged || false);
+    Storm.register(bolt, options.isInstall || false);
+    return bolt;
   };
 
-  Storm.register = function(bolt) {
+  Storm.register = function(bolt, isInstall) {
+    if (isInstall == null) {
+      isInstall = false;
+    }
     Storm.bolts[bolt.id] = bolt;
     Storm.keywords[bolt.getKeyword()] = Storm.keywords[bolt.getKeyword()] || [];
-    return Storm.keywords[bolt.getKeyword()].push(bolt.id);
+    if ($.inArray(bolt.id, Storm.keywords[bolt.getKeyword()]) === -1) {
+      Storm.keywords[bolt.getKeyword()].push(bolt.id);
+    }
+    if (isInstall) {
+      Storm.addToIndex(bolt);
+    }
+    return bolt;
+  };
+
+  Storm.addToIndex = function(bolt) {
+    var bolts;
+
+    Storm.store.set(['bolt', bolt.id], {
+      url: bolt.url,
+      isPrivileged: bolt.isPrivileged,
+      source: bolt.source
+    });
+    bolts = Storm.store.get('bolts', {});
+    bolts.installed = bolts.installed || [];
+    if ($.inArray(bolt.id, bolts.installed) === -1) {
+      bolts.installed.push(bolt.id);
+    }
+    return Storm.store.set('bolts', bolts);
+  };
+
+  Storm.loadAllFromIndex = function() {
+    var boltId, bolts, _i, _len, _ref, _results;
+
+    bolts = Storm.store.get('bolts', {});
+    if (!bolts.installed) {
+      return;
+    }
+    _ref = bolts.installed;
+    _results = [];
+    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+      boltId = _ref[_i];
+      _results.push(Storm.loadFromIndex(boltId));
+    }
+    return _results;
+  };
+
+  Storm.loadFromIndex = function(boltId) {
+    var data;
+
+    data = Storm.store.get(['bolt', boltId]);
+    if (!data) {
+      return;
+    }
+    return Storm.load(data.url, data.source, {
+      isInstall: false,
+      isPrivileged: data.isPrivileged
+    });
   };
 
   Storm.terminateAll = function() {
@@ -101,6 +164,19 @@
     reset: function() {
       return function(bar) {
         return bar.reset();
+      };
+    },
+    ignore: function() {
+      return function(bar) {
+        return null;
+      };
+    },
+    install: function(url) {
+      return function(bar) {
+        if (this.isPrivileged) {
+          Storm.install(url);
+          return bar.reset();
+        }
       };
     }
   };
@@ -170,7 +246,7 @@
     };
 
     Bar.prototype.reset = function() {
-      return forceSearchTerm('');
+      return this.forceSearchTerm('');
     };
 
     Bar.prototype.searchTerm = function() {
@@ -293,20 +369,36 @@
     log: WWRPC.remote(function(msg) {
       return console.log(msg);
     }),
-    sanitize: WWRPC.local(function(str) {
-      return str.replace(/<\/?[a-z0-9]+>/gi, '');
-    }),
-    truncate: WWRPC.local(function(str, length) {
-      return str.slice(0, length);
-    }),
+    utils: {
+      sanitize: WWRPC.local(function(str) {
+        return str.replace(/<\/?[a-z0-9]+>/gi, '');
+      }),
+      truncate: WWRPC.local(function(str, length) {
+        return str.slice(0, length);
+      }),
+      prefixMatch: WWRPC.local(Storm.utils.prefixMatch)
+    },
     command: WWRPC.pass(function() {
       return this.query.command;
     }),
     meta: WWRPC.pass(function() {
       return this.bolt.metadata;
     }),
+    bolts: WWRPC.pass(function() {
+      var bolt, boltId, ret, _ref;
+
+      ret = {
+        installed: {}
+      };
+      _ref = Storm.bolts;
+      for (boltId in _ref) {
+        bolt = _ref[boltId];
+        ret.installed[bolt.id] = bolt.metadata;
+      }
+      return ret;
+    }),
     result: WWRPC.remote(function(opts) {
-      return this.query.result(opts);
+      return this.query.result(opts, this.bolt.isPrivileged);
     }),
     actions: buildActionProxies(),
     http: {
@@ -315,15 +407,51 @@
           return done(res);
         });
       })
-    }
+    },
+    options: WWRPC.local(function(options) {
+      var kw, settings, token, _results, _results1;
+
+      this._tokenDepth = (this._tokenDepth || 0) + 1;
+      token = command.tokens[this._tokenDepth];
+      if (command.hasQuery) {
+        _results = [];
+        for (kw in options) {
+          settings = options[kw];
+          if (token === kw) {
+            _results.push(settings.action());
+          } else if (utils.prefixMatch(command.tokens[1], kw)) {
+            _results.push(result({
+              title: settings.title,
+              description: settings.description,
+              action: actions.fillCommand(command.keyword, kw)
+            }));
+          } else {
+            _results.push(void 0);
+          }
+        }
+        return _results;
+      } else {
+        _results1 = [];
+        for (kw in options) {
+          settings = options[kw];
+          _results1.push(result({
+            title: settings.title,
+            description: settings.description,
+            action: actions.fillCommand(command.keyword, kw)
+          }));
+        }
+        return _results1;
+      }
+    })
   });
 
   Storm.Bolt = (function() {
-    function Bolt(url, code, isPrivileged) {
+    function Bolt(url, source, isPrivileged) {
       this.url = url;
-      this.code = code;
+      this.source = source;
       this.isPrivileged = isPrivileged != null ? isPrivileged : false;
       this.id = Storm.idFromURL(this.url);
+      this.code = this.source;
       this.worker = null;
       this.metadata = {};
       this.processMetadata();
@@ -437,8 +565,11 @@
       return null;
     };
 
-    Query.prototype.result = function(opts) {
-      return this.bar.result(new Storm.Result(opts));
+    Query.prototype.result = function(opts, isPrivileged) {
+      if (isPrivileged == null) {
+        isPrivileged = false;
+      }
+      return this.bar.result(new Storm.Result(opts, isPrivileged));
     };
 
     return Query;
@@ -446,8 +577,9 @@
   })();
 
   Storm.Result = (function() {
-    function Result(data) {
+    function Result(data, isPrivileged) {
       this.data = data != null ? data : {};
+      this.isPrivileged = isPrivileged != null ? isPrivileged : false;
       if (typeof this.data.action === 'object') {
         this.data.action = Storm.actions[this.data.action.name].apply(this, this.data.action.args);
       }
@@ -466,6 +598,28 @@
     return Result;
 
   })();
+
+  Storm.store = {
+    get: function(key, fallback) {
+      if (fallback == null) {
+        fallback = null;
+      }
+      return $.jStorage.get(Storm.store.makeKey(key), fallback);
+    },
+    set: function(key, value) {
+      return $.jStorage.set(Storm.store.makeKey(key), value);
+    },
+    destroy: function(key) {
+      return $.jStorage.deleteKey(Storm.store.makeKey(key));
+    },
+    makeKey: function(parts) {
+      if (typeof parts === 'string') {
+        return parts;
+      } else {
+        return parts.join(':');
+      }
+    }
+  };
 
   Storm.Template = {
     CACHE: {},

@@ -1,6 +1,6 @@
 class Storm.Result
 
-  constructor: (@data={}) ->
+  constructor: (@data={}, @isPrivileged=false) ->
     if typeof @data.action is 'object'
       @data.action = Storm.actions[@data.action.name].apply(this, @data.action.args)
 

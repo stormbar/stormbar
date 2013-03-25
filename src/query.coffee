@@ -11,5 +11,5 @@ class Storm.Query
         Storm.bolts[boltId].process(this) for boltId in bolts
     null
 
-  result: (opts) ->
-    @bar.result(new Storm.Result(opts))
+  result: (opts, isPrivileged=false) ->
+    @bar.result(new Storm.Result(opts, isPrivileged))

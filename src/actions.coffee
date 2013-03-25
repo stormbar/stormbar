@@ -17,3 +17,12 @@ Storm.actions =
 
   reset: ->
     (bar) -> bar.reset()
+
+  ignore: ->
+    (bar) -> null
+
+  install: (url) ->
+    (bar) ->
+      if this.isPrivileged
+        Storm.install(url)
+        bar.reset()
