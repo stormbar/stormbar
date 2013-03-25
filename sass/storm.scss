@@ -26,6 +26,24 @@ body {
   max-width: 600px;
 }
 
+.error {
+  margin-top: 250px;
+  position: relative;
+  background: #fff;
+  width: 100%;
+  text-align: center;
+  @include border-radius(5px);
+  @include box-shadow(rgba(0,0,0,0.1) 0px 0px 15px);
+  h1 {
+    padding: 20px 20px 0 20px;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  p {
+    padding: 20px;
+  }
+}
+
 .stormbar {
   margin-top: 250px;
   position: relative;

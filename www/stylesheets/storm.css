@@ -92,6 +92,33 @@ body {
 }
 
 /* line 29, ../../sass/storm.scss */
+.error {
+  margin-top: 250px;
+  position: relative;
+  background: #fff;
+  width: 100%;
+  text-align: center;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 15px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 15px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 15px;
+}
+/* line 37, ../../sass/storm.scss */
+.error h1 {
+  padding: 20px 20px 0 20px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+/* line 42, ../../sass/storm.scss */
+.error p {
+  padding: 20px;
+}
+
+/* line 47, ../../sass/storm.scss */
 .stormbar {
   margin-top: 250px;
   position: relative;
@@ -116,7 +143,7 @@ body {
   -o-transition-delay: 1s;
   transition-delay: 1s;
 }
-/* line 41, ../../sass/storm.scss */
+/* line 59, ../../sass/storm.scss */
 .stormbar.has-results {
   margin-top: 100px;
   -webkit-transition-delay: 0s;
@@ -125,7 +152,7 @@ body {
   transition-delay: 0s;
 }
 
-/* line 47, ../../sass/storm.scss */
+/* line 65, ../../sass/storm.scss */
 .logo {
   background: url("/images/logo.png") no-repeat center center;
   position: absolute;
@@ -135,7 +162,7 @@ body {
   height: 50px;
 }
 
-/* line 56, ../../sass/storm.scss */
+/* line 74, ../../sass/storm.scss */
 .search {
   position: absolute;
   padding: 10px;
@@ -153,23 +180,23 @@ body {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 69, ../../sass/storm.scss */
+/* line 87, ../../sass/storm.scss */
 .search:focus {
   outline: 0;
 }
 
-/* line 74, ../../sass/storm.scss */
+/* line 92, ../../sass/storm.scss */
 .help {
   position: absolute;
   top: 27px;
   right: 20px;
 }
-/* line 78, ../../sass/storm.scss */
+/* line 96, ../../sass/storm.scss */
 .help:hover .help-text {
   display: block;
 }
 
-/* line 83, ../../sass/storm.scss */
+/* line 101, ../../sass/storm.scss */
 .help-icon {
   display: block;
   font-size: 12px;
@@ -187,7 +214,7 @@ body {
   border-radius: 20px;
 }
 
-/* line 96, ../../sass/storm.scss */
+/* line 114, ../../sass/storm.scss */
 .help-text {
   display: none;
   position: absolute;
@@ -204,7 +231,7 @@ body {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 108, ../../sass/storm.scss */
+/* line 126, ../../sass/storm.scss */
 .help-text:after {
   display: block;
   position: absolute;
@@ -215,7 +242,7 @@ body {
   border-top-color: #000;
 }
 
-/* line 119, ../../sass/storm.scss */
+/* line 137, ../../sass/storm.scss */
 .downpour {
   position: absolute;
   display: block;
@@ -236,30 +263,30 @@ body {
   -o-transition: height 0.5s;
   transition: height 0.5s;
 }
-/* line 131, ../../sass/storm.scss */
+/* line 149, ../../sass/storm.scss */
 .downpour li {
   padding: 10px;
   border-bottom: 1px solid #eeeeee;
 }
-/* line 135, ../../sass/storm.scss */
+/* line 153, ../../sass/storm.scss */
 .downpour li:last-child {
   border-bottom: 0;
 }
-/* line 139, ../../sass/storm.scss */
+/* line 157, ../../sass/storm.scss */
 .downpour li.selected {
   background: rgba(0, 0, 0, 0.08);
 }
-/* line 143, ../../sass/storm.scss */
+/* line 161, ../../sass/storm.scss */
 .downpour li h4 {
   color: #333;
   font-weight: bold;
   font-size: 1.5em;
 }
-/* line 149, ../../sass/storm.scss */
+/* line 167, ../../sass/storm.scss */
 .downpour li p {
   color: #888;
 }
-/* line 153, ../../sass/storm.scss */
+/* line 171, ../../sass/storm.scss */
 .downpour li h4, .downpour li p {
   width: 100%;
   white-space: nowrap;
