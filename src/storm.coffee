@@ -8,6 +8,9 @@ Storm.init = (selector) ->
   new Storm.Bar($(selector), query:params.q)
   Storm.loadAllFromIndex()
 
+Storm.maybeInstall = (url) ->
+  Storm.install(url) unless Storm.isInstalled(Storm.idFromURL(url))
+
 Storm.install = (url) ->
   console.log "INSTALL #{url}"
   if url.search(/^https?:\/\//i) is 0
@@ -46,6 +49,11 @@ Storm.loadFromIndex = (boltId) ->
   data = Storm.store.get(['bolt', boltId])
   return unless data
   Storm.load(data.url, data.source, isInstall:false, isPrivileged:data.isPrivileged)
+
+Storm.isInstalled = (id) ->
+  bolts = Storm.store.get('bolts', {})
+  return false unless bolts.installed
+  $.inArray(id, bolts.installed) isnt -1
 
 Storm.terminateAll = ->
   for id, bolt of Storm.bolts

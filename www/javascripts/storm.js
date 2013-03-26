@@ -17,6 +17,12 @@
     return Storm.loadAllFromIndex();
   };
 
+  Storm.maybeInstall = function(url) {
+    if (!Storm.isInstalled(Storm.idFromURL(url))) {
+      return Storm.install(url);
+    }
+  };
+
   Storm.install = function(url) {
     console.log("INSTALL " + url);
     if (url.search(/^https?:\/\//i) === 0) {
@@ -109,6 +115,16 @@
       isInstall: false,
       isPrivileged: data.isPrivileged
     });
+  };
+
+  Storm.isInstalled = function(id) {
+    var bolts;
+
+    bolts = Storm.store.get('bolts', {});
+    if (!bolts.installed) {
+      return false;
+    }
+    return $.inArray(id, bolts.installed) !== -1;
   };
 
   Storm.terminateAll = function() {
