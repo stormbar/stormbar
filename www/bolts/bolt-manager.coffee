@@ -19,9 +19,7 @@ options
     title: 'List'
     description: 'List all locally installed Bolts.'
     action: ->
-      log bolts
       for boltId, bolt of bolts.installed
-        log bolt
         result
           title: bolt.name
           description: bolt.homepage
