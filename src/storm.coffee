@@ -23,6 +23,7 @@ Storm.idFromURL = (url) -> CryptoJS.SHA1(url).toString()
 Storm.load = (id, boltCode, options={}) ->
   bolt = new Storm.Bolt(id, boltCode, (options.isPrivileged or false))
   Storm.register(bolt, (options.isInstall or false))
+  bolt.install() if options.isInstall
   bolt
 
 Storm.register = (bolt, isInstall=false) ->

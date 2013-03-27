@@ -40,9 +40,14 @@ class Storm.Bolt
     # wraps code in an anonymous function so that it evals cleanly
     @code = "(function() {\n#{@code}\n})"
 
-  run: (query) ->
+  install: -> @execute('install')
+  uninstall: -> @execute('uninstall')
+  run: (query) -> @execute('run', query)
+
+  execute: (mode, query={}) ->
     @worker = WWRPC.spawnWorker(Storm.BOLT_API, {query:query, bolt:this})
     @worker.loadCode(@code)
+    @worker.loadCode("(function() { if(typeof bolt._#{mode} === 'function') bolt._#{mode}() })")
 
   terminate: ->
     if @worker

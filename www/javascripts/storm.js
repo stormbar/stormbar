@@ -54,6 +54,9 @@
     }
     bolt = new Storm.Bolt(id, boltCode, options.isPrivileged || false);
     Storm.register(bolt, options.isInstall || false);
+    if (options.isInstall) {
+      bolt.install();
+    }
     return bolt;
   };
 
@@ -458,7 +461,18 @@
         }
         return _results1;
       }
-    })
+    }),
+    bolt: {
+      run: WWRPC.local(function(fn) {
+        return this._run = fn;
+      }),
+      install: WWRPC.local(function(fn) {
+        return this._install = fn;
+      }),
+      uninstall: WWRPC.local(function(fn) {
+        return this._uninstall = fn;
+      })
+    }
   });
 
   Storm.Bolt = (function() {
@@ -522,12 +536,28 @@
       return this.code = "(function() {\n" + this.code + "\n})";
     };
 
+    Bolt.prototype.install = function() {
+      return this.execute('install');
+    };
+
+    Bolt.prototype.uninstall = function() {
+      return this.execute('uninstall');
+    };
+
     Bolt.prototype.run = function(query) {
+      return this.execute('run', query);
+    };
+
+    Bolt.prototype.execute = function(mode, query) {
+      if (query == null) {
+        query = {};
+      }
       this.worker = WWRPC.spawnWorker(Storm.BOLT_API, {
         query: query,
         bolt: this
       });
-      return this.worker.loadCode(this.code);
+      this.worker.loadCode(this.code);
+      return this.worker.loadCode("(function() { if(typeof bolt._" + mode + " === 'function') bolt._" + mode + "() })");
     };
 
     Bolt.prototype.terminate = function() {

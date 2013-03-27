@@ -7,12 +7,17 @@ buildActionProxies = ->
 
 Storm.BOLT_API = WWRPC.defineProtocol
 
+
+  # Utils
+
   log: WWRPC.remote (msg) -> console.log(msg)
 
   utils:
     sanitize: WWRPC.local (str) -> str.replace(/<\/?[a-z0-9]+>/gi, '')
     truncate: WWRPC.local (str, length) -> str.slice(0, length)
     prefixMatch: WWRPC.local Storm.utils.prefixMatch
+
+  # Data Structures
 
   command: WWRPC.pass -> this.query.command
   meta: WWRPC.pass -> this.bolt.metadata
@@ -22,13 +27,22 @@ Storm.BOLT_API = WWRPC.defineProtocol
       ret.installed[bolt.id] = bolt.metadata
     ret
 
+
+  # Results
+
   result: WWRPC.remote (opts) -> this.query.result(opts, this.bolt.isPrivileged)
 
   actions: buildActionProxies()
 
+
+  # HTTP
+
   http:
     getJSON: WWRPC.remote (url, done) ->
       $.getJSON url, (res) -> done(res)
+
+
+  # Option Handing
 
   options: WWRPC.local (options) ->
     this._tokenDepth = (this._tokenDepth or 0) + 1
@@ -48,3 +62,11 @@ Storm.BOLT_API = WWRPC.defineProtocol
           title: settings.title
           description: settings.description
           action: actions.fillCommand(command.keyword, kw)
+
+
+  # Lifecycle
+
+  bolt:
+    run: WWRPC.local (fn) -> this._run = fn
+    install: WWRPC.local (fn) -> this._install = fn
+    uninstall: WWRPC.local (fn) -> this._uninstall = fn
