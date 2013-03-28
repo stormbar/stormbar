@@ -26,3 +26,21 @@ Storm.actions =
       if this.isPrivileged
         Storm.install(url)
         bar.reset()
+
+  uninstall: (boltId) ->
+    (bar) ->
+      if this.isPrivileged
+        Storm.uninstall(boltId)
+        bar.reset()
+
+  update: (boltId) ->
+    (bar) ->
+      if this.isPrivileged
+        Storm.update(boltId)
+        bar.reset()
+
+  updateAll: (boltId) ->
+    (bar) ->
+      if this.isPrivileged
+        Storm.updateAll()
+        bar.reset()

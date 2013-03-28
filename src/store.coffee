@@ -3,3 +3,4 @@ Storm.store =
   set: (key, value) -> $.jStorage.set(Storm.store.makeKey(key), value)
   destroy: (key) -> $.jStorage.deleteKey(Storm.store.makeKey(key))
   makeKey: (parts) -> if typeof parts is 'string' then parts else parts.join(':')
+  flush: -> $.jStorage.flush()

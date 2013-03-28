@@ -33,6 +33,28 @@ Storm.register = (bolt, isInstall=false) ->
   Storm.addToIndex(bolt) if isInstall
   bolt
 
+Storm.update = (boltId) ->
+  bolt = Storm.bolts[boltId]
+  Storm.install(bolt.url)
+
+Storm.updateAll = ->
+  for id, bolt of Storm.bolts
+    Storm.install(bolt.url)
+
+Storm.uninstall = (boltId) ->
+  bolt = Storm.bolts[boltId]
+  bolt.uninstall()
+  Storm.removeFromIndex(bolt)
+  delete Storm.bolts[boltId]
+  Storm.keywords[bolt.getKeyword()] = Storm.keywords[bolt.getKeyword()].filter (id) -> id isnt boltId
+
+Storm.removeFromIndex = (bolt) ->
+  Storm.store.set(['bolt', bolt.id], null)
+  bolts = Storm.store.get('bolts', {})
+  bolts.installed = bolts.installed or []
+  bolts.installed = bolts.installed.filter (id) -> id isnt bolt.id
+  Storm.store.set('bolts', bolts)
+
 Storm.addToIndex = (bolt) ->
   Storm.store.set(['bolt', bolt.id], url:bolt.url, isPrivileged:bolt.isPrivileged, source:bolt.source)
   bolts = Storm.store.get('bolts', {})

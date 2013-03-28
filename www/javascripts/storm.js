@@ -75,6 +75,49 @@
     return bolt;
   };
 
+  Storm.update = function(boltId) {
+    var bolt;
+
+    bolt = Storm.bolts[boltId];
+    return Storm.install(bolt.url);
+  };
+
+  Storm.updateAll = function() {
+    var bolt, id, _ref, _results;
+
+    _ref = Storm.bolts;
+    _results = [];
+    for (id in _ref) {
+      bolt = _ref[id];
+      _results.push(Storm.install(bolt.url));
+    }
+    return _results;
+  };
+
+  Storm.uninstall = function(boltId) {
+    var bolt;
+
+    bolt = Storm.bolts[boltId];
+    bolt.uninstall();
+    Storm.removeFromIndex(bolt);
+    delete Storm.bolts[boltId];
+    return Storm.keywords[bolt.getKeyword()] = Storm.keywords[bolt.getKeyword()].filter(function(id) {
+      return id !== boltId;
+    });
+  };
+
+  Storm.removeFromIndex = function(bolt) {
+    var bolts;
+
+    Storm.store.set(['bolt', bolt.id], null);
+    bolts = Storm.store.get('bolts', {});
+    bolts.installed = bolts.installed || [];
+    bolts.installed = bolts.installed.filter(function(id) {
+      return id !== bolt.id;
+    });
+    return Storm.store.set('bolts', bolts);
+  };
+
   Storm.addToIndex = function(bolt) {
     var bolts;
 
@@ -194,6 +237,30 @@
       return function(bar) {
         if (this.isPrivileged) {
           Storm.install(url);
+          return bar.reset();
+        }
+      };
+    },
+    uninstall: function(boltId) {
+      return function(bar) {
+        if (this.isPrivileged) {
+          Storm.uninstall(boltId);
+          return bar.reset();
+        }
+      };
+    },
+    update: function(boltId) {
+      return function(bar) {
+        if (this.isPrivileged) {
+          Storm.update(boltId);
+          return bar.reset();
+        }
+      };
+    },
+    updateAll: function(boltId) {
+      return function(bar) {
+        if (this.isPrivileged) {
+          Storm.updateAll();
           return bar.reset();
         }
       };
@@ -485,6 +552,7 @@
       this.worker = null;
       this.metadata = {};
       this.processMetadata();
+      this.set('url', this.url);
       this.stripCode();
       this.compile();
     }
@@ -664,6 +732,9 @@
       } else {
         return parts.join(':');
       }
+    },
+    flush: function() {
+      return $.jStorage.flush();
     }
   };
 

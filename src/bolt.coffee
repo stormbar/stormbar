@@ -5,6 +5,7 @@ class Storm.Bolt
     @worker = null
     @metadata = {}
     @processMetadata()
+    @set('url', @url)
     @stripCode()
     @compile()
 
