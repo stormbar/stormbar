@@ -224,6 +224,19 @@ body {
   }
 }
 
+.warning-banner {
+  position: relative;
+  background: #ffc;
+  margin: 0 -30px;
+  padding: 20px 30px;
+  border-top: 1px solid #fdc;
+  border-bottom: 1px solid #fdc;
+  h3 {
+    margin: 0;
+    font-size: 1.2em
+  }
+}
+
 footer {
   position: absolute;
   bottom: 0;
@@ -232,10 +245,11 @@ footer {
   padding: 10px;
   text-align: center;
   font-size: 12px;
+  color: darken(#1a9078, 5%);
   a {
-    color: #ccc;
+    color: darken(#1a9078, 20%);
     &:hover {
-      color: #fff;
+      color: darken(#1a9078, 70%);
     }
   }
 }
