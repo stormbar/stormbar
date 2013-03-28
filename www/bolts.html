@@ -27,6 +27,12 @@
 
   <h2>API Documentation</h2>
 
+  <h3>bolt.run(fn)</h3>
+  <p>This is where the meat of your bolt code will probably live. The run function will get executed whenever your bolt is involked via a query in the UI.</p>
+
+  <h3>bolt.install(fn), bolt.uninstall(fn)</h3>
+  <p>The install and uninstall functions are lifecycle events that get involked once when your bolt is installed or uninstalled. They allow you to do any setup or teardown that's required, such as authenticating users or removing sensitive data.</p>
+
   <h3>log(msg)</h3>
   <p>Allows logging to the console to aid in debugging. Note: console.log() isn't available as your Bolt code will run instide a WebWorker.</p>
 
