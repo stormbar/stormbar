@@ -49,7 +49,7 @@ Storm.uninstall = (boltId) ->
   Storm.keywords[bolt.getKeyword()] = Storm.keywords[bolt.getKeyword()].filter (id) -> id isnt boltId
 
 Storm.removeFromIndex = (bolt) ->
-  Storm.store.set(['bolt', bolt.id], null)
+  Storm.store.remove(['bolt', bolt.id])
   bolts = Storm.store.get('bolts', {})
   bolts.installed = bolts.installed or []
   bolts.installed = bolts.installed.filter (id) -> id isnt bolt.id

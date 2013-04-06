@@ -109,7 +109,7 @@
   Storm.removeFromIndex = function(bolt) {
     var bolts;
 
-    Storm.store.set(['bolt', bolt.id], null);
+    Storm.store.remove(['bolt', bolt.id]);
     bolts = Storm.store.get('bolts', {});
     bolts.installed = bolts.installed || [];
     bolts.installed = bolts.installed.filter(function(id) {
@@ -715,16 +715,22 @@
 
   Storm.store = {
     get: function(key, fallback) {
+      var item;
+
       if (fallback == null) {
         fallback = null;
       }
-      return $.jStorage.get(Storm.store.makeKey(key), fallback);
+      item = window.localStorage.getItem(Storm.store.makeKey(key));
+      if (item === null) {
+        return fallback;
+      }
+      return JSON.parse(item);
     },
     set: function(key, value) {
-      return $.jStorage.set(Storm.store.makeKey(key), value);
+      return window.localStorage.setItem(Storm.store.makeKey(key), JSON.stringify(value));
     },
-    destroy: function(key) {
-      return $.jStorage.deleteKey(Storm.store.makeKey(key));
+    remove: function(key) {
+      return window.localStorage.removeItem(Storm.store.makeKey(key));
     },
     makeKey: function(parts) {
       if (typeof parts === 'string') {
@@ -732,9 +738,6 @@
       } else {
         return parts.join(':');
       }
-    },
-    flush: function() {
-      return $.jStorage.flush();
     }
   };
 
