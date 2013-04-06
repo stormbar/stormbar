@@ -259,7 +259,7 @@
     Worker.prototype.start = function() {
       var _this = this;
 
-      this.worker = new window.Worker(window.URL.createObjectURL(this.blob));
+      this.worker = new window.Worker(this.blobURL());
       return this.worker.addEventListener('message', function(e) {
         return _this.process(e.data);
       });
@@ -270,6 +270,18 @@
         action: 'wwrpc:run',
         code: code.toString()
       });
+    };
+
+    Worker.prototype.blobURL = function() {
+      var fn;
+
+      if (window.URL) {
+        fn = window.URL.createObjectURL;
+      }
+      if (window.webkitURL) {
+        fn = window.webkitURL.createObjectURL;
+      }
+      return fn(this.blob);
     };
 
     return Worker;
