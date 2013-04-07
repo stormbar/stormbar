@@ -149,6 +149,7 @@ body {
   @include transition(height 0.5s);
 
   li {
+    position: relative;
     padding: 10px;
     border-bottom: 1px solid #eee;
 
@@ -176,6 +177,19 @@ body {
       text-overflow: ellipsis;
       overflow: hidden;
       line-height: 1.3em;
+    }
+
+    &.has-icon .content {
+      margin-left: 70px;
+    }
+
+    .icon {
+      display: block;
+      width: 57px;
+      height: 57px;
+      position: absolute;
+      top: 8px;
+      left: 8px;
     }
   }
 }

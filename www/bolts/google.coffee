@@ -18,6 +18,7 @@ bolt.run ->
             title:       utils.sanitize(utils.unescape(item.title))
             description: utils.sanitize(utils.unescape(item.content))
             action:      actions.open(item.url)
+            icon:        "/images/google.png"
       else
         result
           title:       "Query Failed!"

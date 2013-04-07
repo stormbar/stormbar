@@ -27,9 +27,14 @@
 </footer>
 
 <script id="result-template" type="text/x-handlebars-template">
-  <li class="result">
-    <h4>{{title}}</h4>
-    <p>{{description}}</p>
+  <li class="result{{#if icon}} has-icon{{/if}}">
+    <div class="content">
+      <h4>{{title}}</h4>
+      <p>{{description}}</p>
+    </div>
+    {{#if icon}}
+      <img class="icon" src="{{icon}}" alt="{{title}}" />
+    {{/if}}
   </li>
 </script>
 

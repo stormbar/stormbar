@@ -267,28 +267,29 @@ body {
 }
 /* line 151, ../../sass/storm.scss */
 .downpour li {
+  position: relative;
   padding: 10px;
   border-bottom: 1px solid #eeeeee;
 }
-/* line 155, ../../sass/storm.scss */
+/* line 156, ../../sass/storm.scss */
 .downpour li:last-child {
   border-bottom: 0;
 }
-/* line 159, ../../sass/storm.scss */
+/* line 160, ../../sass/storm.scss */
 .downpour li.selected {
   background: rgba(0, 0, 0, 0.08);
 }
-/* line 163, ../../sass/storm.scss */
+/* line 164, ../../sass/storm.scss */
 .downpour li h4 {
   color: #333;
   font-weight: bold;
   font-size: 1.5em;
 }
-/* line 169, ../../sass/storm.scss */
+/* line 170, ../../sass/storm.scss */
 .downpour li p {
   color: #888;
 }
-/* line 173, ../../sass/storm.scss */
+/* line 174, ../../sass/storm.scss */
 .downpour li h4, .downpour li p {
   width: 100%;
   white-space: nowrap;
@@ -296,8 +297,21 @@ body {
   overflow: hidden;
   line-height: 1.3em;
 }
+/* line 182, ../../sass/storm.scss */
+.downpour li.has-icon .content {
+  margin-left: 70px;
+}
+/* line 186, ../../sass/storm.scss */
+.downpour li .icon {
+  display: block;
+  width: 57px;
+  height: 57px;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+}
 
-/* line 183, ../../sass/storm.scss */
+/* line 197, ../../sass/storm.scss */
 .page {
   position: relative;
   margin: 50px auto;
@@ -306,7 +320,7 @@ body {
   background: #fff;
   line-height: 1.5;
 }
-/* line 190, ../../sass/storm.scss */
+/* line 204, ../../sass/storm.scss */
 .page .back {
   position: absolute;
   top: 0;
@@ -317,41 +331,41 @@ body {
   color: #333;
   text-decoration: none;
 }
-/* line 199, ../../sass/storm.scss */
+/* line 213, ../../sass/storm.scss */
 .page .back:hover {
   color: #fff;
   background: #333;
 }
-/* line 204, ../../sass/storm.scss */
+/* line 218, ../../sass/storm.scss */
 .page h1 {
   font-size: 2.4em;
   padding: 20px 0 10px 0;
 }
-/* line 208, ../../sass/storm.scss */
+/* line 222, ../../sass/storm.scss */
 .page h2 {
   font-size: 1.6em;
   margin: 20px 0 10px 0;
 }
-/* line 212, ../../sass/storm.scss */
+/* line 226, ../../sass/storm.scss */
 .page h3 {
   font-weight: bold;
   margin: 1em 0 0.5em 0;
 }
-/* line 216, ../../sass/storm.scss */
+/* line 230, ../../sass/storm.scss */
 .page p {
   margin: 0.5em 0;
 }
-/* line 219, ../../sass/storm.scss */
+/* line 233, ../../sass/storm.scss */
 .page ol {
   margin-bottom: 1em;
 }
-/* line 222, ../../sass/storm.scss */
+/* line 236, ../../sass/storm.scss */
 .page li {
   list-style: square;
   margin: 0.25em 20px;
 }
 
-/* line 228, ../../sass/storm.scss */
+/* line 242, ../../sass/storm.scss */
 .warning-banner {
   position: relative;
   background: #ffc;
@@ -360,13 +374,13 @@ body {
   border-top: 1px solid #ffddcc;
   border-bottom: 1px solid #ffddcc;
 }
-/* line 235, ../../sass/storm.scss */
+/* line 249, ../../sass/storm.scss */
 .warning-banner h3 {
   margin: 0;
   font-size: 1.2em;
 }
 
-/* line 241, ../../sass/storm.scss */
+/* line 255, ../../sass/storm.scss */
 footer {
   position: absolute;
   bottom: 0;
@@ -377,11 +391,11 @@ footer {
   font-size: 12px;
   color: #167a66;
 }
-/* line 250, ../../sass/storm.scss */
+/* line 264, ../../sass/storm.scss */
 footer a {
   color: #0a3a30;
 }
-/* line 252, ../../sass/storm.scss */
+/* line 266, ../../sass/storm.scss */
 footer a:hover {
   color: black;
 }
