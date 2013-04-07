@@ -22,7 +22,7 @@ class Storm.Bar
     @searchField.on('change', => @considerUpdate())
     Mousetrap.bind 'up', (=> @moveUp(); false)
     Mousetrap.bind 'down', (=> @moveDown(); false)
-    Mousetrap.bind ['right','enter', 'tab'], (=> @triggerAction(); false)
+    Mousetrap.bind ['enter', 'tab'], (=> @triggerAction(); false)
 
   focusSearchField: ->
     $(document).ready(=> @searchField.focus())
