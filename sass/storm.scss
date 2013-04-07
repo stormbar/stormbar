@@ -142,7 +142,8 @@ body {
   background: #fff;
   width: 90%;
   margin-left: 5%;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   max-height: 400px;
   @include border-bottom-radius(5px);
   @include transition(height 0.5s);
