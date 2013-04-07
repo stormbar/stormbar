@@ -312,7 +312,7 @@
         _this.moveDown();
         return false;
       }));
-      return Mousetrap.bind(['right', 'enter', 'tab'], (function() {
+      return Mousetrap.bind(['enter', 'tab'], (function() {
         _this.triggerAction();
         return false;
       }));
@@ -462,7 +462,10 @@
       truncate: WWRPC.local(function(str, length) {
         return str.slice(0, length);
       }),
-      prefixMatch: WWRPC.local(Storm.utils.prefixMatch)
+      prefixMatch: WWRPC.local(Storm.utils.prefixMatch),
+      unescape: WWRPC.local(function(str) {
+        return str.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#x27;/g, "'").replace(/&#x2F;/g, "/");
+      })
     },
     command: WWRPC.pass(function() {
       return this.query.command;

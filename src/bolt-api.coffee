@@ -16,6 +16,15 @@ Storm.BOLT_API = WWRPC.defineProtocol
     sanitize: WWRPC.local (str) -> str.replace(/<\/?[a-z0-9]+>/gi, '')
     truncate: WWRPC.local (str, length) -> str.slice(0, length)
     prefixMatch: WWRPC.local Storm.utils.prefixMatch
+    unescape: WWRPC.local (str) ->
+      str
+        .replace(/&amp;/g, '&')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"')
+        .replace(/&#39;/g, "'")
+        .replace(/&#x27;/g, "'")
+        .replace(/&#x2F;/g, "/")
 
   # Data Structures
 

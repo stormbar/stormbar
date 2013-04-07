@@ -15,8 +15,8 @@ bolt.run ->
       if data.responseData
         for item in data.responseData.results
           result
-            title:       utils.sanitize(item.title)
-            description: utils.sanitize(item.content)
+            title:       utils.sanitize(utils.unescape(item.title))
+            description: utils.sanitize(utils.unescape(item.content))
             action:      actions.open(item.url)
       else
         result
