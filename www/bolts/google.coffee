@@ -7,7 +7,6 @@ bolt.install ->
   log "install"
 
 bolt.run ->
-  log 'run'
   if command.hasQuery
 
     url = "http://ajax.googleapis.com/ajax/services/search/web?v=1.0&q="+command.query+"&callback=?"
