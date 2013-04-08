@@ -312,6 +312,10 @@
         _this.moveDown();
         return false;
       }));
+      Mousetrap.bind('esc', (function() {
+        _this.reset();
+        return false;
+      }));
       return Mousetrap.bind(['enter', 'tab'], (function() {
         _this.triggerAction();
         return false;
