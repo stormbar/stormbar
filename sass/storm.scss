@@ -268,3 +268,22 @@ footer {
     }
   }
 }
+
+#activity-indicator {
+  display: block;
+  opacity: 0;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  padding: 5px 10px;
+  @include border-radius(5px);
+  background: #333;
+  color: #fff;
+  font-size: 13px;
+  @include transition(opacity .25s ease-out);
+  @include transition-delay(.25s);
+  &.on {
+    opacity: 1;
+    @include transition-delay(0s);
+  }
+}
