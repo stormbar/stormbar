@@ -12,11 +12,16 @@ Storm.maybeInstall = (url) ->
   Storm.install(url) unless Storm.isInstalled(Storm.idFromURL(url))
 
 Storm.install = (url) ->
-  console.log "INSTALL #{url}"
-  if url.search(/^https?:\/\//i) is 0
-    $.getJSON "http://anyorigin.com/get?callback=?&url=#{url}", (data) -> Storm.load(url, data.contents, isPrivileged:false, isInstall:true)
-  else
-    $.get url, null, ((data) -> Storm.load(url, data, isPrivileged:true, isInstall:true)), 'text'
+  Storm.activity 'installing bolt', (activity) ->
+    if url.search(/^https?:\/\//i) is 0
+      $.getJSON "http://anyorigin.com/get?callback=?&url=#{url}", (data) ->
+        Storm.load(url, data.contents, isPrivileged:false, isInstall:true)
+        activity.end()
+    else
+      $.get url, null, ((data) ->
+        Storm.load(url, data, isPrivileged:true, isInstall:true)
+        activity.end()
+      ), 'text'
 
 Storm.idFromURL = (url) -> CryptoJS.SHA1(url).toString()
 
@@ -81,6 +86,11 @@ Storm.isInstalled = (id) ->
 Storm.terminateAll = ->
   for id, bolt of Storm.bolts
     bolt.terminate()
+
+Storm.activity = (status, cb) ->
+  activity = Storm.ActivityManager.create()
+  activity.start(status)
+  cb(activity)
 
 Storm.utils = {
   prefixMatch: (prefix, string) -> string.search(new RegExp("^#{prefix}",'i')) is 0

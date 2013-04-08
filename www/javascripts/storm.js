@@ -24,22 +24,25 @@
   };
 
   Storm.install = function(url) {
-    console.log("INSTALL " + url);
-    if (url.search(/^https?:\/\//i) === 0) {
-      return $.getJSON("http://anyorigin.com/get?callback=?&url=" + url, function(data) {
-        return Storm.load(url, data.contents, {
-          isPrivileged: false,
-          isInstall: true
+    return Storm.activity('installing bolt', function(activity) {
+      if (url.search(/^https?:\/\//i) === 0) {
+        return $.getJSON("http://anyorigin.com/get?callback=?&url=" + url, function(data) {
+          Storm.load(url, data.contents, {
+            isPrivileged: false,
+            isInstall: true
+          });
+          return activity.end();
         });
-      });
-    } else {
-      return $.get(url, null, (function(data) {
-        return Storm.load(url, data, {
-          isPrivileged: true,
-          isInstall: true
-        });
-      }), 'text');
-    }
+      } else {
+        return $.get(url, null, (function(data) {
+          Storm.load(url, data, {
+            isPrivileged: true,
+            isInstall: true
+          });
+          return activity.end();
+        }), 'text');
+      }
+    });
   };
 
   Storm.idFromURL = function(url) {
@@ -185,6 +188,14 @@
     return _results;
   };
 
+  Storm.activity = function(status, cb) {
+    var activity;
+
+    activity = Storm.ActivityManager.create();
+    activity.start(status);
+    return cb(activity);
+  };
+
   Storm.utils = {
     prefixMatch: function(prefix, string) {
       return string.search(new RegExp("^" + prefix, 'i')) === 0;
@@ -266,6 +277,99 @@
       };
     }
   };
+
+  Storm.ActivityManager = {
+    activities: [],
+    indicatorShowing: false,
+    hasRunningActivities: false,
+    create: function() {
+      var activity;
+
+      activity = new Storm.Activity(this);
+      this.activities.push(activity);
+      return activity;
+    },
+    update: function() {
+      var activity;
+
+      this.activities = (function() {
+        var _i, _len, _ref, _results;
+
+        _ref = this.activities;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          activity = _ref[_i];
+          if (activity.isRunning()) {
+            _results.push(activity);
+          }
+        }
+        return _results;
+      }).call(this);
+      this.hasRunningActivities = this.activities.length > 0;
+      return this.updateIndicator();
+    },
+    updateIndicator: function() {
+      var indicator;
+
+      indicator = $('#activity-indicator');
+      if (this.hasRunningActivities) {
+        indicator.find('.status').text(this.activities[0].status());
+        indicator.addClass('on');
+        return this.indicatorShowing = true;
+      } else {
+        indicator.removeClass('on');
+        return this.indicatorShowing = true;
+      }
+    }
+  };
+
+  Storm.Activity = (function() {
+    Activity.TIMEOUT = 10000;
+
+    function Activity(_manager) {
+      this._manager = _manager;
+      this._running = false;
+      this._status = 'working';
+      this._timeout = null;
+    }
+
+    Activity.prototype.start = function(initialStatus) {
+      var _this = this;
+
+      this._timeout = setTimeout((function() {
+        return _this.end();
+      }), Storm.Activity.TIMEOUT);
+      this._running = true;
+      this._status = initialStatus;
+      return this._manager.update();
+    };
+
+    Activity.prototype.end = function() {
+      if (this._timeout) {
+        clearTimeout(this._timeout);
+      }
+      this._running = false;
+      return this._manager.update();
+    };
+
+    Activity.prototype.status = function(msg) {
+      if (msg == null) {
+        msg = null;
+      }
+      if (msg) {
+        this._status = msg;
+        this._manager.update();
+      }
+      return this._status;
+    };
+
+    Activity.prototype.isRunning = function() {
+      return this._running;
+    };
+
+    return Activity;
+
+  })();
 
   Storm.Bar = (function() {
     function Bar(el, options) {
@@ -496,8 +600,11 @@
     actions: buildActionProxies(),
     http: {
       getJSON: WWRPC.remote(function(url, done) {
-        return $.getJSON(url, function(res) {
-          return done(res);
+        return Storm.activity('downloading', function(activity) {
+          return $.getJSON(url, function(res) {
+            activity.end();
+            return done(res);
+          });
         });
       })
     },

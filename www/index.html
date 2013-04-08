@@ -8,6 +8,8 @@
 </head>
 <body>
 
+<div id="activity-indicator"><span class="status">initializing</span>&hellip;</div>
+
 <div class="wrapper">
   <div class="stormbar">
     <div class="logo"></div>
@@ -30,7 +32,9 @@
   <li class="result{{#if icon}} has-icon{{/if}}">
     <div class="content">
       <h4>{{title}}</h4>
-      <p>{{description}}</p>
+      {{#if description}}
+        <p>{{description}}</p>
+      {{/if}}
     </div>
     {{#if icon}}
       <img class="icon" src="{{icon}}" alt="{{title}}" />

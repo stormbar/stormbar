@@ -48,7 +48,11 @@ Storm.BOLT_API = WWRPC.defineProtocol
 
   http:
     getJSON: WWRPC.remote (url, done) ->
-      $.getJSON url, (res) -> done(res)
+      Storm.activity 'downloading', (activity) ->
+        $.getJSON url, (res) ->
+          activity.end()
+          done(res)
+
 
 
   # Option Handing
