@@ -219,6 +219,20 @@
         return window.open(url);
       };
     },
+    image: function(url) {
+      return function(bar) {
+        return new Storm.Modal('image', {
+          image: url
+        }).open();
+      };
+    },
+    iframe: function(url) {
+      return function(bar) {
+        return new Storm.Modal('iframe', {
+          src: url
+        }).open();
+      };
+    },
     fill: function(searchTerm) {
       return function(bar) {
         return bar.forceSearchTerm(searchTerm);
@@ -408,22 +422,39 @@
       this.searchField.on('change', function() {
         return _this.considerUpdate();
       });
-      Mousetrap.bind('up', (function() {
-        _this.moveUp();
-        return false;
+      Mousetrap.bind('up', this.closeModalAnd(function() {
+        return _this.moveUp();
       }));
-      Mousetrap.bind('down', (function() {
-        _this.moveDown();
-        return false;
+      Mousetrap.bind('down', this.closeModalAnd(function() {
+        return _this.moveDown();
       }));
-      Mousetrap.bind('esc', (function() {
-        _this.reset();
-        return false;
+      Mousetrap.bind('esc', this.closeModalOr(function() {
+        return _this.reset();
       }));
-      return Mousetrap.bind(['enter', 'tab'], (function() {
-        _this.triggerAction();
-        return false;
+      return Mousetrap.bind(['enter', 'tab'], this.closeModalOr(function() {
+        return _this.triggerAction();
       }));
+    };
+
+    Bar.prototype.closeModalOr = function(fn) {
+      return function() {
+        if (Storm.Modal.hasOpenModal()) {
+          Storm.Modal.close();
+        } else {
+          fn();
+        }
+        return false;
+      };
+    };
+
+    Bar.prototype.closeModalAnd = function(fn) {
+      return function() {
+        if (Storm.Modal.hasOpenModal()) {
+          Storm.Modal.close();
+        }
+        fn();
+        return false;
+      };
     };
 
     Bar.prototype.focusSearchField = function() {
@@ -764,6 +795,44 @@
     }
 
     return Command;
+
+  })();
+
+  Storm.Modal = (function() {
+    Modal.activeModal = null;
+
+    Modal.hasOpenModal = function() {
+      return Storm.Modal.activeModal && Storm.Modal.activeModal.isOpen;
+    };
+
+    Modal.close = function() {
+      return Storm.Modal.activeModal.close();
+    };
+
+    function Modal(template, options) {
+      this.template = template;
+      this.options = options;
+      this.content = Storm.Template.render('modal-' + this.template, this.options);
+      this.el = null;
+      this.isOpen = false;
+      Storm.Modal.activeModal = this;
+    }
+
+    Modal.prototype.open = function() {
+      this.el = $.parseHTML(this.content);
+      $('body').append(this.el);
+      return this.isOpen = true;
+    };
+
+    Modal.prototype.close = function() {
+      if (!this.isOpen) {
+        return;
+      }
+      $(this.el).remove();
+      return this.isOpen = false;
+    };
+
+    return Modal;
 
   })();
 

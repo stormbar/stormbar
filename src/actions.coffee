@@ -6,6 +6,12 @@ Storm.actions =
   open: (url) ->
     (bar) -> window.open(url)
 
+  image: (url) ->
+    (bar) -> new Storm.Modal('image', image: url).open()
+
+  iframe: (url) ->
+    (bar) -> new Storm.Modal('iframe', src: url).open()
+
   fill: (searchTerm) ->
     (bar) -> bar.forceSearchTerm(searchTerm)
 

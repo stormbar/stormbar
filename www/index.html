@@ -42,8 +42,21 @@
   </li>
 </script>
 
+<script id="modal-image-template" type="text/x-handlebars-template">
+  <div class="modal image-modal">
+    <img src="{{image}}" />
+  </div>
+</script>
+
+<script id="modal-iframe-template" type="text/x-handlebars-template">
+  <div class="modal iframe-modal">
+    <iframe src="{{src}}" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen />
+  </div>
+</script>
+
 <script type="text/javascript">
     Storm.install('/bolts/bolt-manager.coffee');
+    Storm.maybeInstall('/bolts/mpora.coffee');
     Storm.maybeInstall('/bolts/random.coffee');
     Storm.maybeInstall('/bolts/google.coffee');
     Storm.init('.stormbar');

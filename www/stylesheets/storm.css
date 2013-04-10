@@ -433,3 +433,35 @@ footer a:hover {
   -o-transition-delay: 0s;
   transition-delay: 0s;
 }
+
+/* line 291, ../../sass/storm.scss */
+.modal {
+  position: absolute;
+  width: 640px;
+  height: 480px;
+  margin: -240px -320px;
+  top: 50%;
+  left: 50%;
+  overflow: hidden;
+  background: #fff;
+  -webkit-box-shadow: 0 0 10px #333333;
+  -moz-box-shadow: 0 0 10px #333333;
+  box-shadow: 0 0 10px #333333;
+}
+
+/* line 303, ../../sass/storm.scss */
+.image-modal {
+  text-align: center;
+  background-color: #000;
+}
+/* line 306, ../../sass/storm.scss */
+.image-modal img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* line 313, ../../sass/storm.scss */
+.iframe-modal iframe {
+  width: 100%;
+  height: 100%;
+}

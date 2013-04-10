@@ -20,10 +20,24 @@ class Storm.Bar
   bindEvents: ->
     @searchField.on('keyup', => @considerUpdate())
     @searchField.on('change', => @considerUpdate())
-    Mousetrap.bind 'up', (=> @moveUp(); false)
-    Mousetrap.bind 'down', (=> @moveDown(); false)
-    Mousetrap.bind 'esc', (=> @reset(); false)
-    Mousetrap.bind ['enter', 'tab'], (=> @triggerAction(); false)
+    Mousetrap.bind 'up', @closeModalAnd(=> @moveUp())
+    Mousetrap.bind 'down', @closeModalAnd(=> @moveDown())
+    Mousetrap.bind 'esc', @closeModalOr(=> @reset())
+    Mousetrap.bind ['enter', 'tab'], @closeModalOr(=> @triggerAction())
+
+  closeModalOr: (fn) ->
+    ->
+      if Storm.Modal.hasOpenModal()
+        Storm.Modal.close()
+      else
+        fn()
+      false
+
+  closeModalAnd: (fn) ->
+    ->
+      Storm.Modal.close() if Storm.Modal.hasOpenModal()
+      fn()
+      false
 
   focusSearchField: ->
     $(document).ready(=> @searchField.focus())
