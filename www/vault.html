@@ -1,0 +1,16 @@
+<html><head>
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script>
+    var args = window.location.hash.replace(/^#/,'').split(/\||%7C/);
+    var id = args[0];
+    var url = args[1];
+    var domain = window.location.hostname
+    if(domain === '' || domain === 'localhost') domain = '*';
+    if(url === '') throw new Error('No URL was provided');
+    $.getJSON(url, function(res) {
+      // console.log(id, res);
+      if(window.parent === undefined) throw new Error('No parent frame found');
+      window.parent.postMessage({vault:true, id:id, response:res}, domain)
+    });
+  </script>
+</head></html>

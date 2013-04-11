@@ -1,5 +1,6 @@
 (function() {
-  var Storm, buildActionProxies;
+  var Storm, buildActionProxies,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
   window.Storm = Storm = {};
 
@@ -219,16 +220,18 @@
         return window.open(url);
       };
     },
-    image: function(url) {
+    image: function(title, url) {
       return function(bar) {
         return new Storm.Modal('image', {
+          title: title,
           image: url
         }).open();
       };
     },
-    iframe: function(url) {
+    iframe: function(title, url) {
       return function(bar) {
         return new Storm.Modal('iframe', {
+          title: title,
           src: url
         }).open();
       };
@@ -632,7 +635,7 @@
     http: {
       getJSON: WWRPC.remote(function(url, done) {
         return Storm.activity('downloading', function(activity) {
-          return $.getJSON(url, function(res) {
+          return Storm.Vault.get(url, function(res) {
             activity.end();
             return done(res);
           });
@@ -943,5 +946,52 @@
       return Storm.Template.CACHE[name];
     }
   };
+
+  Storm.Vault = (function() {
+    Vault.COUNTER = 1;
+
+    Vault.PATH = '/vault.html';
+
+    Vault.get = function(url, callback) {
+      return new Storm.Vault(url, callback);
+    };
+
+    function Vault(url, callback) {
+      this.url = url;
+      this.callback = callback;
+      this.onMessage = __bind(this.onMessage, this);
+      this.id = (Storm.Vault.COUNTER++).toString();
+      this.registerCallback();
+      this.frame = document.createElement("iframe");
+      this.frame.setAttribute("src", this.vaultURL());
+      this.frame.style.width = "0px";
+      this.frame.style.height = "0px";
+      $('body').append(this.frame);
+    }
+
+    Vault.prototype.registerCallback = function() {
+      return window.addEventListener('message', this.onMessage, false);
+    };
+
+    Vault.prototype.vaultURL = function() {
+      return "" + Storm.Vault.PATH + "#" + this.id + "|" + this.url;
+    };
+
+    Vault.prototype.onMessage = function(e) {
+      if (!(e.data.vault && e.data.id === this.id)) {
+        return;
+      }
+      this.callback(e.data.response);
+      return this.cleanup();
+    };
+
+    Vault.prototype.cleanup = function() {
+      $(this.frame).remove();
+      return window.removeEventListener('message', this.onMessage, false);
+    };
+
+    return Vault;
+
+  })();
 
 }).call(this);
