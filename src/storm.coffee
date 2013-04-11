@@ -3,6 +3,11 @@ window.Storm = Storm = {}
 Storm.bolts = {}
 Storm.keywords = {}
 
+Storm.env = {
+  production: window.location.hostname is 'stormbar.net'
+  development: window.location.hostname isnt 'stormbar.net'
+}
+
 Storm.init = (selector) ->
   params = URI(window.location.href).query(true)
   new Storm.Bar($(selector), query:params.q)

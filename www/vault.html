@@ -4,8 +4,8 @@
     var args = window.location.hash.replace(/^#/,'').split(/\||%7C/);
     var id = args[0];
     var url = args[1];
-    var domain = window.location.hostname
-    if(domain === '' || domain === 'localhost') domain = '*';
+    var host = window.location.hostname
+    var domain = (host === '' || host === 'localhost') ? '*' : 'http://stormbar.net';
     if(url === '') throw new Error('No URL was provided');
     $.getJSON(url, function(res) {
       // console.log(id, res);

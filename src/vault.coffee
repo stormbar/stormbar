@@ -1,6 +1,6 @@
 class Storm.Vault
   @COUNTER = 1
-  @PATH = '/vault.html'
+  @PATH = if Storm.env.production then 'http://vault.stormbar.net/vault.html' else '/vault.html'
 
   @get = (url, callback) ->
     new Storm.Vault(url, callback)

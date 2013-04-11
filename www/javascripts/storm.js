@@ -8,6 +8,11 @@
 
   Storm.keywords = {};
 
+  Storm.env = {
+    production: window.location.hostname === 'stormbar.net',
+    development: window.location.hostname !== 'stormbar.net'
+  };
+
   Storm.init = function(selector) {
     var params;
 
@@ -950,7 +955,7 @@
   Storm.Vault = (function() {
     Vault.COUNTER = 1;
 
-    Vault.PATH = '/vault.html';
+    Vault.PATH = Storm.env.production ? 'http://vault.stormbar.net/vault.html' : '/vault.html';
 
     Vault.get = function(url, callback) {
       return new Storm.Vault(url, callback);

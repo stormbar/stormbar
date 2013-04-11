@@ -49,7 +49,7 @@ module.exports = (grunt) ->
         secret: 'Z9BDpxWCxlbGIJsggNppHiPfUOqi7gT/1gmRdRdB'
         bucket: 'stormbar.net'
         access: 'public-read'
-      deploy:
+      site:
         upload: [
           { src: 'www/*', dest: '' }
           { src: 'www/bolts/*', dest: 'bolts/' }
@@ -58,6 +58,12 @@ module.exports = (grunt) ->
           { src: 'www/javascripts/*', dest: 'javascripts/', gzip:true }
           { src: 'www/stylesheets/*', dest: 'stylesheets/' }
           { src: 'www/stylesheets/*', dest: 'stylesheets/', gzip:true }
+        ]
+      vault:
+        options:
+          bucket: 'vault.stormbar.net'
+        upload: [
+          { src: 'www/vault.html', dest: 'vault.html' }
         ]
 
 
