@@ -273,15 +273,11 @@
     };
 
     Worker.prototype.blobURL = function() {
-      var fn;
-
       if (window.URL) {
-        fn = window.URL.createObjectURL;
+        return window.URL.createObjectURL(this.blob);
+      } else {
+        return window.webkitURL.createObjectURL(this.blob);
       }
-      if (window.webkitURL) {
-        fn = window.webkitURL.createObjectURL;
-      }
-      return fn(this.blob);
     };
 
     return Worker;
