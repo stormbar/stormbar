@@ -40,6 +40,9 @@ Storm.BOLT_API = WWRPC.defineProtocol
   # Results
 
   result: WWRPC.remote (opts) -> this.query.result(opts, this.bolt.isPrivileged)
+  perform: WWRPC.remote (action) ->
+    Storm.actions[action.name].apply(this.bolt, action.args)(this.query.bar)
+    this.query.bar.reset()
 
   actions: buildActionProxies()
 

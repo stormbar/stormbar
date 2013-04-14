@@ -647,6 +647,10 @@
     result: WWRPC.remote(function(opts) {
       return this.query.result(opts, this.bolt.isPrivileged);
     }),
+    perform: WWRPC.remote(function(action) {
+      Storm.actions[action.name].apply(this.bolt, action.args)(this.query.bar);
+      return this.query.bar.reset();
+    }),
     actions: buildActionProxies(),
     http: {
       getJSON: WWRPC.remote(function(url, done) {
