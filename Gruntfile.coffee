@@ -2,7 +2,8 @@ module.exports = (grunt) ->
 
   grunt.initConfig
 
-    pkg: grunt.file.readJSON('package.json'),
+    pkg: grunt.file.readJSON('package.json')
+    aws: if grunt.file.exists('aws.json') then grunt.file.readJSON('aws.json') else {}
 
     coffee:
       src:
@@ -45,9 +46,9 @@ module.exports = (grunt) ->
 
     s3:
       options:
-        key: '0BE1SV875XDXKC7KQW02'
-        secret: 'Z9BDpxWCxlbGIJsggNppHiPfUOqi7gT/1gmRdRdB'
-        bucket: 'stormbar.net'
+        key: '<%= aws.key %>'
+        secret: '<%= aws.secret %>'
+        bucket: '<%= aws.bucket %>'
         access: 'public-read'
       site:
         upload: [
