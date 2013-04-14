@@ -1,23 +1,7 @@
-@import "compass/reset";
-@import "compass/css3";
-
-@font-face {
-  font-family: 'Maven Pro';
-  font-style: normal;
-  font-weight: 500;
-  src: local('Maven Pro Medium'), local('MavenProMedium'), url(http://themes.googleusercontent.com/static/fonts/mavenpro/v4/SQVfzoJBbj9t3aVcmbspRqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
-}
-@font-face {
-  font-family: 'Maven Pro';
-  font-style: normal;
-  font-weight: 900;
-  src: local('Maven Pro Black'), local('MavenProBlack'), url(http://themes.googleusercontent.com/static/fonts/mavenpro/v4/-91TwiFzqeL1F7Kh91APwaRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
-}
+@import "base";
 
 body {
   background: #1a9078;
-  font-family: 'Maven Pro', sans-serif;
-  font-weight: 500;
 }
 
 .wrapper {

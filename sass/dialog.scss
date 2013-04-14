@@ -1,0 +1,57 @@
+@import 'base';
+
+body {
+  margin: 0;
+  padding: 3em 10px 10px;
+  background: #fff;
+  color: #333;
+  line-height: 1.5em;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.2em;
+  background: #333;
+  color: #fff;
+  margin: 0;
+  padding: .5em 10px;
+  line-height: 1em;
+
+  .close {
+    display: block;
+    position: absolute;
+    top: .25em;
+    right: 10px;
+    color: #ddd;
+    text-decoration: none;
+    font-size: 1.25em;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+section {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ccc
+}
+
+h2 {
+  font-weight: bold;
+  margin: 0 0 .5em 0;
+}
+p {
+  margin: .5em 0;
+}
+ol {
+  margin-bottom: 1em;
+}
+li {
+  list-style: square;
+  margin: .25em 20px;
+}

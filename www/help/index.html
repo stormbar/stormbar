@@ -1,0 +1,43 @@
+<html>
+<head>
+  <title>Storm Bar Help</title>
+  <link rel="stylesheet" type="text/css" href="/stylesheets/dialog.css" />
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $('.close').click(function() {
+        window.parent.postMessage('closeModal', '*');
+      });
+    });
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Storm Bar Quick Help</h1>
+    <a href="#" class="close">&times;</a>
+  </header>
+
+  <section>
+    <h2>What is it?</h2>
+    <p>Do you use a Desktop launch bar on your computer? Maybe Alfred, Quicksilver or something similar? Well Storm Bar is just like that but built for the web.</p>
+    <p>Imagine a launch bar for the web that has a documented public JavaScript based API where extensions are simply URLs. This is Storm Bar.</p>
+    <p><a href="/about.html" target="_blank">Read more about Storm Bar&hellip;</a></p>
+  </section>
+
+  <section>
+    <h2>How do I use it?</h2>
+    <p>First you'll need to install some Bolts. Bolts are extensions that allow you to add new commands to your Storm Bar.</p>
+    <p>Storm Bar ships with 2 Bolts installed by default. These are 'help' and 'bolt'. You've already seen what the 'help' Bolt does.</p>
+    <p>The 'bolt' Bolt is a very simple package manager allows you to list, install, update and remove Bolts from your local machine.</p>
+    <p>First lets try installing a bolt that allows you to search Google. <a href="http://stormbar.net/" target="_blank">Open Storm Bar in another window</a> and try type 'bolt install google' then hit enter.</p>
+    <p>Now you should be able to type 'google funny cat' and get some search results back. Congratulations, you installed and used your first Bolt!</p>
+  </section>
+
+  <section>
+    <h2>Where can I find more Bolts?</h2>
+    <p>Storm Bar is a very young project so there aren't too many Bolts around yet. There is a <a href="https://github.com/stormbar/bolts" target="_blank">community repository of useful bolts on github</a>. When you type in a bolt name like 'bolt install google' it is installed from here.</p>
+    <p>Alternatively you can write your own custom bolts and install them with a URL (gists make a great home for custom Bolts) 'bolt install http://mydomain.com/mybolt.js'</p>
+    <p>For more help on writing your own bolts see <a href="/bolts.html" target="_blank">the Bolt API guide</a>.</p>
+  </section>
+</body>
+</html>

@@ -16,8 +16,14 @@ class Storm.Modal
     @el = $.parseHTML(@content)
     $('body').append(@el)
     @isOpen = true
+    window.addEventListener('message', @onMessage, false)
 
   close: ->
     return unless @isOpen
     $(@el).remove()
     @isOpen = false
+    window.removeEventListener('message', @onMessage, false)
+
+  onMessage: (e) =>
+    return unless e.data = 'closeModal'
+    @close()

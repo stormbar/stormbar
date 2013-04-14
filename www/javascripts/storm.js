@@ -245,10 +245,9 @@
         }).open();
       };
     },
-    iframe: function(title, url) {
+    iframe: function(url) {
       return function(bar) {
         return new Storm.Modal('iframe', {
-          title: title,
           src: url
         }).open();
       };
@@ -832,6 +831,7 @@
     function Modal(template, options) {
       this.template = template;
       this.options = options;
+      this.onMessage = __bind(this.onMessage, this);
       this.content = Storm.Template.render('modal-' + this.template, this.options);
       this.el = null;
       this.isOpen = false;
@@ -841,7 +841,8 @@
     Modal.prototype.open = function() {
       this.el = $.parseHTML(this.content);
       $('body').append(this.el);
-      return this.isOpen = true;
+      this.isOpen = true;
+      return window.addEventListener('message', this.onMessage, false);
     };
 
     Modal.prototype.close = function() {
@@ -849,7 +850,15 @@
         return;
       }
       $(this.el).remove();
-      return this.isOpen = false;
+      this.isOpen = false;
+      return window.removeEventListener('message', this.onMessage, false);
+    };
+
+    Modal.prototype.onMessage = function(e) {
+      if (!(e.data = 'closeModal')) {
+        return;
+      }
+      return this.close();
     };
 
     return Modal;

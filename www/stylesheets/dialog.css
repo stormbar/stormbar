@@ -1,0 +1,151 @@
+/* line 17, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../.rbenv/versions/1.9.3-p194/lib/ruby/gems/1.9.1/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
+  display: block;
+}
+
+@font-face {
+  font-family: 'Maven Pro';
+  font-style: normal;
+  font-weight: 500;
+  src: local("Maven Pro Medium"), local("MavenProMedium"), url(http://themes.googleusercontent.com/static/fonts/mavenpro/v4/SQVfzoJBbj9t3aVcmbspRqRDOzjiPcYnFooOUGCOsRk.woff) format("woff");
+}
+
+@font-face {
+  font-family: 'Maven Pro';
+  font-style: normal;
+  font-weight: 900;
+  src: local("Maven Pro Black"), local("MavenProBlack"), url(http://themes.googleusercontent.com/static/fonts/mavenpro/v4/-91TwiFzqeL1F7Kh91APwaRDOzjiPcYnFooOUGCOsRk.woff) format("woff");
+}
+
+/* line 17, ../../sass/_base.scss */
+body {
+  background: #1a9078;
+  font-family: "Maven Pro", sans-serif;
+  font-weight: 500;
+}
+
+/* line 3, ../../sass/dialog.scss */
+body {
+  margin: 0;
+  padding: 3em 10px 10px;
+  background: #fff;
+  color: #333;
+  line-height: 1.5em;
+}
+
+/* line 11, ../../sass/dialog.scss */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.2em;
+  background: #333;
+  color: #fff;
+  margin: 0;
+  padding: 0.5em 10px;
+  line-height: 1em;
+}
+/* line 23, ../../sass/dialog.scss */
+header .close {
+  display: block;
+  position: absolute;
+  top: .25em;
+  right: 10px;
+  color: #ddd;
+  text-decoration: none;
+  font-size: 1.25em;
+}
+/* line 32, ../../sass/dialog.scss */
+header .close:hover {
+  color: #fff;
+}
+
+/* line 38, ../../sass/dialog.scss */
+section {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+/* line 44, ../../sass/dialog.scss */
+h2 {
+  font-weight: bold;
+  margin: 0 0 0.5em 0;
+}
+
+/* line 48, ../../sass/dialog.scss */
+p {
+  margin: 0.5em 0;
+}
+
+/* line 51, ../../sass/dialog.scss */
+ol {
+  margin-bottom: 1em;
+}
+
+/* line 54, ../../sass/dialog.scss */
+li {
+  list-style: square;
+  margin: 0.25em 20px;
+}

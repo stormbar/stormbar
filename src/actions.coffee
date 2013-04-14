@@ -9,8 +9,8 @@ Storm.actions =
   image: (title, url) ->
     (bar) -> new Storm.Modal('image', title: title, image: url).open()
 
-  iframe: (title, url) ->
-    (bar) -> new Storm.Modal('iframe', title: title, src: url).open()
+  iframe: (url) ->
+    (bar) -> new Storm.Modal('iframe', src: url).open()
 
   fill: (searchTerm) ->
     (bar) -> bar.forceSearchTerm(searchTerm)
