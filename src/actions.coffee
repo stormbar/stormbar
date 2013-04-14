@@ -6,7 +6,7 @@ Storm.actions =
   open: (url) ->
     (bar) -> window.open(url)
 
-  image: (title, url) ->
+  image: (url, title) ->
     (bar) -> new Storm.Modal('image', title: title, image: url).open()
 
   iframe: (url) ->

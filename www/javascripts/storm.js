@@ -237,7 +237,7 @@
         return window.open(url);
       };
     },
-    image: function(title, url) {
+    image: function(url, title) {
       return function(bar) {
         return new Storm.Modal('image', {
           title: title,

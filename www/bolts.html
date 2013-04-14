@@ -72,6 +72,10 @@
     <li>icon: String - An optional URL of an icon to be displayed next to this result</li>
   </ul>
 
+  <h3>perform(action)</h3>
+  <p>Immediately perform the provided action.</p>
+  <p>This is designed mainly to be used by bolts that don't require a request/response cycle from the user. The inbuilt <a href="/bolts/help.coffee">'help' Bolt is a good example</a> of this use case.</p>
+
   <h3>actions</h3>
   <p>The actions object contains action proxies which can be used as the action argument to results such that when a user picks a result the action is fired.</p>
   <p>The supported action types are:</p>
@@ -82,6 +86,8 @@
     <li>actions.fill(command) - given a new command string this action will fill the UI.</li>
     <li>actions.fillKeyword(keyword) - like fill() but designed for when you just want to provide a keyword.</li>
     <li>actions.fillCommand(keyword, query) - like fill() but takes seperate arguments for keyword and query parts</li>
+    <li>actions.image(url, title) - loads an image in a modal image viewer window. With an optional title.</li>
+    <li>actions.iframe(src) - open a modal iframe at the given src url.</li>
   </ul>
 
   <h2>A Full Example</h2>
