@@ -6,6 +6,7 @@ Storm.keywords = {}
 Storm.env = {
   production: window.location.hostname is 'stormbar.net'
   development: window.location.hostname isnt 'stormbar.net'
+  server: if this.production then 'stormbar.net' else 'localhost:9000'
 }
 
 Storm.init = (selector) ->
@@ -13,20 +14,26 @@ Storm.init = (selector) ->
   new Storm.Bar($(selector), query:params.q)
   Storm.loadAllFromIndex()
 
+Storm.boltURL = (url) ->
+  return url if url.search(/^https?:\/\//i) is 0
+  return url if url.search(/^\//) is 0
+  "http://raw.github.com/stormbar/bolts/master/#{url}/#{url}.bolt.coffee"
+
 Storm.maybeInstall = (url) ->
   Storm.install(url) unless Storm.isInstalled(Storm.idFromURL(url))
 
 Storm.install = (url) ->
   Storm.activity 'installing bolt', (activity) ->
-    if url.search(/^https?:\/\//i) is 0
-      $.getJSON "http://anyorigin.com/get?callback=?&url=#{url}", (data) ->
-        Storm.load(url, data.contents, isPrivileged:false, isInstall:true)
-        activity.end()
-    else
+    url = Storm.boltURL(url)
+    if url.search(/^\//i) is 0
       $.get url, null, ((data) ->
         Storm.load(url, data, isPrivileged:true, isInstall:true)
         activity.end()
       ), 'text'
+    else
+      $.getJSON "http://anyorigin.com/get?callback=?&url=#{url}", (data) ->
+        Storm.load(url, data.contents, isPrivileged:false, isInstall:true)
+        activity.end()
 
 Storm.idFromURL = (url) -> CryptoJS.SHA1(url).toString()
 

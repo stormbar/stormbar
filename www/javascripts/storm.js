@@ -10,7 +10,8 @@
 
   Storm.env = {
     production: window.location.hostname === 'stormbar.net',
-    development: window.location.hostname !== 'stormbar.net'
+    development: window.location.hostname !== 'stormbar.net',
+    server: this.production ? 'stormbar.net' : 'localhost:9000'
   };
 
   Storm.init = function(selector) {
@@ -23,6 +24,16 @@
     return Storm.loadAllFromIndex();
   };
 
+  Storm.boltURL = function(url) {
+    if (url.search(/^https?:\/\//i) === 0) {
+      return url;
+    }
+    if (url.search(/^\//) === 0) {
+      return url;
+    }
+    return "http://raw.github.com/stormbar/bolts/master/" + url + "/" + url + ".bolt.coffee";
+  };
+
   Storm.maybeInstall = function(url) {
     if (!Storm.isInstalled(Storm.idFromURL(url))) {
       return Storm.install(url);
@@ -31,15 +42,8 @@
 
   Storm.install = function(url) {
     return Storm.activity('installing bolt', function(activity) {
-      if (url.search(/^https?:\/\//i) === 0) {
-        return $.getJSON("http://anyorigin.com/get?callback=?&url=" + url, function(data) {
-          Storm.load(url, data.contents, {
-            isPrivileged: false,
-            isInstall: true
-          });
-          return activity.end();
-        });
-      } else {
+      url = Storm.boltURL(url);
+      if (url.search(/^\//i) === 0) {
         return $.get(url, null, (function(data) {
           Storm.load(url, data, {
             isPrivileged: true,
@@ -47,6 +51,14 @@
           });
           return activity.end();
         }), 'text');
+      } else {
+        return $.getJSON("http://anyorigin.com/get?callback=?&url=" + url, function(data) {
+          Storm.load(url, data.contents, {
+            isPrivileged: false,
+            isInstall: true
+          });
+          return activity.end();
+        });
       }
     });
   };
