@@ -48,8 +48,8 @@ Storm Bar is by it's very nature designed ot run untrusted third party code dire
 - All UI content is escaped and rendered through Handlebars.js
 
 
-Architecture
-------------
+Lifecyle of a Command
+---------------------
 
 1. Command is entered in the UI
 2. Command is parsed and the first word (the keyword) is matched against the database to find potential bolt matches.
