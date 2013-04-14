@@ -55,6 +55,7 @@ module.exports = (grunt) ->
           { src: 'www/*', dest: '' }
           { src: 'www/bolts/*', dest: 'bolts/' }
           { src: 'www/images/*', dest: 'images/' }
+          { src: 'www/help/*', dest: 'help/' }
           { src: 'www/javascripts/*', dest: 'javascripts/' }
           { src: 'www/javascripts/*', dest: 'javascripts/', gzip:true }
           { src: 'www/stylesheets/*', dest: 'stylesheets/' }
