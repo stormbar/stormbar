@@ -408,9 +408,9 @@
       this.bindEvents();
       this.currentResultIndex = 0;
       this.updateTimer = null;
-      setTimeout((function() {
+      $(document).ready(function() {
         return _this.onLoad();
-      }), 1000);
+      });
     }
 
     Bar.prototype.onLoad = function() {
