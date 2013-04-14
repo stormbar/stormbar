@@ -76,7 +76,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-s3')
 
-  grunt.registerTask('build', ['coffee', 'uglify'])
+  grunt.registerTask('build', ['compass', 'coffee', 'uglify'])
   grunt.registerTask('default', ['build'])
   grunt.registerTask('dev', ['connect', 'watch'])
   grunt.registerTask('deploy', ['s3'])
