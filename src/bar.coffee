@@ -9,8 +9,7 @@ class Storm.Bar
     @bindEvents()
     @currentResultIndex = 0
     @updateTimer = null
-    # TODO: this is a big hack till we have load events
-    setTimeout (=> @onLoad()), 1000
+    $(document).ready => @onLoad()
 
   onLoad: ->
     @forceSearchTerm(@options.query) if @options.query
