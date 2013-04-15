@@ -239,6 +239,9 @@
         return null;
       }
       return function() {
+        if (!_this.worker) {
+          return;
+        }
         return _this.worker.postMessage({
           action: 'wwrpc:callback',
           callbackId: id,
