@@ -16,6 +16,9 @@ Storm.init = (selector) ->
 
 Storm.boltURL = (url) ->
   return url if url.search(/^https?:\/\//i) is 0
+  if url.search(/^dev\//) is 0
+    name = url.split('/')[1]
+    return "http://localhost:9001/#{name}/#{name}.bolt.coffee"
   return url if url.search(/^\//) is 0
   "http://raw.github.com/stormbar/bolts/master/#{url}/#{url}.bolt.coffee"
 
@@ -28,6 +31,11 @@ Storm.install = (url) ->
     if url.search(/^\//i) is 0
       $.get url, null, ((data) ->
         Storm.load(url, data, isPrivileged:true, isInstall:true)
+        activity.end()
+      ), 'text'
+    else if url.search(/^http:\/\/localhost/) is 0
+      $.get url, null, ((data) ->
+        Storm.load(url, data, isPrivileged:false, isInstall:true)
         activity.end()
       ), 'text'
     else

@@ -25,8 +25,14 @@
   };
 
   Storm.boltURL = function(url) {
+    var name;
+
     if (url.search(/^https?:\/\//i) === 0) {
       return url;
+    }
+    if (url.search(/^dev\//) === 0) {
+      name = url.split('/')[1];
+      return "http://localhost:9001/" + name + "/" + name + ".bolt.coffee";
     }
     if (url.search(/^\//) === 0) {
       return url;
@@ -47,6 +53,14 @@
         return $.get(url, null, (function(data) {
           Storm.load(url, data, {
             isPrivileged: true,
+            isInstall: true
+          });
+          return activity.end();
+        }), 'text');
+      } else if (url.search(/^http:\/\/localhost/) === 0) {
+        return $.get(url, null, (function(data) {
+          Storm.load(url, data, {
+            isPrivileged: false,
             isInstall: true
           });
           return activity.end();
