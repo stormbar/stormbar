@@ -13,8 +13,8 @@ bolt.run ->
       action: ->
         url = command.tokens[2]
         result
-          title: if url then "Install: '#{url}'" else "Please provide a Bolt URL"
-          description: 'Bolt URLs should be publicly accessible and plaintext'
+          title: if url then "Install: '#{url}'" else "Please provide a Bolt name or URL"
+          description: 'Bolt URLs should be publicly accessible'
           action: if url then actions.install(url) else actions.ignore()
 
     list:
