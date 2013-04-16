@@ -512,8 +512,15 @@
     };
 
     Bar.prototype.result = function(result) {
+      var resultHTML,
+        _this = this;
+
       this.results.push(result);
-      this.resultsEl.append(result.render());
+      resultHTML = $.parseHTML(result.render());
+      this.resultsEl.append(resultHTML);
+      $(resultHTML).click(function() {
+        return _this.triggerAction(result);
+      });
       this.updateSelection();
       this.updateHeight();
       return this.el.addClass('has-results');
@@ -594,10 +601,10 @@
       return this.resultsEl.height(h);
     };
 
-    Bar.prototype.triggerAction = function() {
-      var result;
-
-      result = this.results[this.currentResultIndex];
+    Bar.prototype.triggerAction = function(result) {
+      if (result == null) {
+        result = this.results[this.currentResultIndex];
+      }
       if (!result) {
         return;
       }

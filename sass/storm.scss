@@ -136,6 +136,7 @@ body {
     position: relative;
     padding: 10px;
     border-bottom: 1px solid #eee;
+    cursor: pointer;
 
     &:last-child {
       border-bottom: 0;
@@ -143,6 +144,10 @@ body {
 
     &.selected {
       background: rgba(0,0,0,0.08);
+    }
+
+    &:hover {
+      background: rgba(0,0,0,0.15);
     }
 
     h4 {

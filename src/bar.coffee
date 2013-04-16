@@ -51,7 +51,9 @@ class Storm.Bar
 
   result: (result) ->
     @results.push(result)
-    @resultsEl.append(result.render())
+    resultHTML = $.parseHTML(result.render())
+    @resultsEl.append(resultHTML)
+    $(resultHTML).click => @triggerAction(result)
     @updateSelection()
     @updateHeight()
     @el.addClass('has-results')
@@ -101,7 +103,6 @@ class Storm.Bar
     h += $(child).outerHeight() for child in @resultsEl.children()
     @resultsEl.height(h)
 
-  triggerAction: ->
-    result = @results[@currentResultIndex]
+  triggerAction: (result=@results[@currentResultIndex]) ->
     return unless result
     result.triggerAction(this)
