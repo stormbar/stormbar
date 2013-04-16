@@ -41,7 +41,7 @@ You will need an `aws.json` file with valid credentials in order to deploy. See 
 Security
 --------
 
-Storm Bar is by it's very nature designed ot run untrusted third party code directly in the browser. Whilst this can probably never be 100% secure we go to great lengths to try.
+Storm Bar is by it's very nature designed to run untrusted third party code directly in the browser. Whilst this can probably never be 100% secure we go to great lengths to try.
 
 - All Bolt code is run inside of a WebWorker. This means thrid party code cannot access any resources, including the DOM, AJAX, cookies, localstorage, etc.
 - Bolt initiated HTTP requests are handed off to an iframe on a seperate domain to be fetched and parsed.
