@@ -63,10 +63,15 @@ body {
   bottom: 20px;
   right: 20px;
   border: 0;
+  font-family: aleo-regular;
   font-size: 22px;
   color: #777;
   font-weight: normal;
   @include border-radius(5px);
+
+  &::-webkit-input-placeholder  { font-family: aleo-light; }
+  &:-moz-placeholder            { font-family: aleo-light; }
+  &:-ms-input-placeholder       { font-family: aleo-light; }
 
   &:focus {
     outline: 0;
