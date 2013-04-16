@@ -2,20 +2,40 @@
 @import "compass/css3";
 
 @font-face {
-  font-family: 'Maven Pro';
-  font-style: normal;
-  font-weight: 500;
-  src: local('Maven Pro Medium'), local('MavenProMedium'), url(http://themes.googleusercontent.com/static/fonts/mavenpro/v4/SQVfzoJBbj9t3aVcmbspRqRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+    font-family: 'aleo-regular';
+    src: url('aleo-regular-webfont.eot');
+    src: url('aleo-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('aleo-regular-webfont.woff') format('woff'),
+         url('aleo-regular-webfont.ttf') format('truetype'),
+         url('aleo-regular-webfont.svg#aleoregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
+
 @font-face {
-  font-family: 'Maven Pro';
-  font-style: normal;
-  font-weight: 900;
-  src: local('Maven Pro Black'), local('MavenProBlack'), url(http://themes.googleusercontent.com/static/fonts/mavenpro/v4/-91TwiFzqeL1F7Kh91APwaRDOzjiPcYnFooOUGCOsRk.woff) format('woff');
+    font-family: 'aleo-bold';
+    src: url('aleo-bold-webfont.eot');
+    src: url('aleo-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('aleo-bold-webfont.woff') format('woff'),
+         url('aleo-bold-webfont.ttf') format('truetype'),
+         url('aleo-bold-webfont.svg#aleobold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'aleo-light';
+    src: url('aleo-light-webfont.eot');
+    src: url('aleo-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('aleo-light-webfont.woff') format('woff'),
+         url('aleo-light-webfont.ttf') format('truetype'),
+         url('aleo-light-webfont.svg#aleolight') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 body {
   background: #1a9078;
-  font-family: 'Maven Pro', sans-serif;
-  font-weight: 500;
+  color: #333;
+  font-family: 'aleo-regular', sans-serif;
 }
