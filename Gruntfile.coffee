@@ -53,6 +53,7 @@ module.exports = (grunt) ->
       site:
         upload: [
           { src: 'www/*', dest: '' }
+          { src: 'www/fonts/*', dest: 'fonts/' }
           { src: 'www/bolts/*', dest: 'bolts/' }
           { src: 'www/images/*', dest: 'images/' }
           { src: 'www/help/*', dest: 'help/' }
